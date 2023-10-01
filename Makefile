@@ -2,7 +2,7 @@ ISO:=fedora-coreos-38.20230902.3.0-live.x86_64.iso
 CUSTOM_ISO:=freya.iso
 IGNITION_FILE:=freya.ign
 UPLOAD_SHARE:=//freyr.home.mpardalos.com/data
-UPLOAD_DIR:=ISOs/template/iso
+UPLOAD_DIR:=proxmox/template/iso
 
 custom-iso: $(CUSTOM_ISO)
 base-iso: $(ISO)
