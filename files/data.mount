@@ -1,0 +1,10 @@
+[Unit]
+Description=/data directory, mounted over NFSv4
+
+[Mount]
+What=freyr.home.mpardalos.com:/data
+Where=/data
+Type=nfs4
+
+[Install]
+WantedBy=multi-user.target
