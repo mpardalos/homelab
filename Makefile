@@ -19,4 +19,4 @@ $(ISO):
 	curl -LO https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/38.20230902.3.0/x86_64/fedora-coreos-38.20230902.3.0-live.x86_64.iso
 
 %.ign: %.bu
-	butane --files-dir files --output $@ $<
+	butane --strict --files-dir files --output $@ $<
