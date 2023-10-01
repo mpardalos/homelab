@@ -14,3 +14,9 @@ systemd:
       dropins:
         - name: autologin-root.conf
           contents_local: autologin-root.conf
+storage:
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: freya.home.mpardalos.com
