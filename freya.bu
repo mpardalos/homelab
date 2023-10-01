@@ -32,3 +32,6 @@ storage:
     - path: /etc/containers/systemd/gerbera.container
       contents:
         local: gerbera.container
+    - path: /etc/containers/systemd/qbittorrent.container
+      contents:
+        local: qbittorrent.container
