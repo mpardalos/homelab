@@ -1,0 +1,13 @@
+[Unit]
+Description=Gerbera container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=gerbera
+Image=docker.io/gerbera/gerbera:latest
+Network=host
+Volume=/var/data/data/media:/content:ro
+
+[Install]
+WantedBy=multi-user.target
