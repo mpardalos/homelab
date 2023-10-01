@@ -1,0 +1,8 @@
+variant: fcos
+version: 1.4.0
+passwd:
+  users:
+    - name: mpardalos
+      password_hash: '$y$j9T$Jp7QgXqNnm5qUpC0DmnIj0$7cdAnIcMo9geH4sprhR2ns0M35JetcOnPAcul5Smid7'
+      ssh_authorized_keys:
+        - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCxv6O8byqKeQvmzAqLzrR84bIDV6cbDYaNJeynpNGHwxFxPvpaieXhSw2vsIQQeqz4uqyfbh/wFdsw6QNP2XhqR5cnDI0+u4WNw+14Ef2yj61kosJzkj6UpUjbRvXIT7InKJKue4SaT0HFN7R91s6NoIOe5aEtUYIDWTzG7hmizgPlZSbw78o1pyb+zjvZhRtbBefxQyTwkCnSPv8dMKeh8+otqDIqtsFOBZ5LsZulfym1zNlHM1rDaF9+v1mkxsRRAXCFhISqVpslkP3ZU7b7wEaVRAa1hFhJTNnPl7jueXVwzeVy+eVdxyO3weFLCAcLuzOcKd32yRhPS8UuDyZUcjaTcwYJobj4KxHqSAexybtKoo+DNitqOF/XI7YQXybqlyIZvxF2n/Gg7/KC205mjwl+JxCmBsp1qzrb5a+GWDbYAIOblxTGgFsD2/ZTBnMCRk2MlAhL9LS0lHN/yh5DtkdtHzfeVDlnWrO7k1cYut5geJqLlBqOwxThL8sSPR8= mpardalos@odin'
