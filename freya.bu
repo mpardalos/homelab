@@ -8,3 +8,9 @@ passwd:
       ssh_authorized_keys_local:
         - mpardalos@odin.pub
         - mpardalos@magni.pub
+systemd:
+  units:
+    - name: serial-getty@ttyS0.service
+      dropins:
+        - name: autologin-root.conf
+          contents_local: autologin-root.conf
