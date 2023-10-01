@@ -4,6 +4,7 @@ version: 1.5.0
 passwd:
   users:
     - name: mpardalos
+      uid: 1000
       gecos: Michalis Pardalos
       password_hash: '$y$j9T$Jp7QgXqNnm5qUpC0DmnIj0$7cdAnIcMo9geH4sprhR2ns0M35JetcOnPAcul5Smid7'
       groups:
@@ -11,6 +12,8 @@ passwd:
       ssh_authorized_keys_local:
         - mpardalos@odin.pub
         - mpardalos@magni.pub
+    - name: container
+      uid: 5000
 systemd:
   units:
     - name: serial-getty@ttyS0.service
