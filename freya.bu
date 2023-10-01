@@ -6,6 +6,8 @@ passwd:
     - name: mpardalos
       gecos: Michalis Pardalos
       password_hash: '$y$j9T$Jp7QgXqNnm5qUpC0DmnIj0$7cdAnIcMo9geH4sprhR2ns0M35JetcOnPAcul5Smid7'
+      groups:
+        - wheel
       ssh_authorized_keys_local:
         - mpardalos@odin.pub
         - mpardalos@magni.pub
