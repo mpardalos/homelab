@@ -13,6 +13,7 @@ passwd:
         - mpardalos@magni.pub
     - name: container
       uid: 5000
+
 systemd:
   units:
     - name: serial-getty@ttyS0.service
@@ -22,6 +23,7 @@ systemd:
     - name: var-data.mount
       enabled: true
       contents_local: var-data.mount
+
 storage:
   files:
     - path: /etc/hostname
