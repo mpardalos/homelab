@@ -1,9 +1,9 @@
 [Unit]
-Description=/data directory, mounted over NFSv4
+Description=/var/data directory, mounted over NFSv4
 
 [Mount]
 What=freyr.home.mpardalos.com:/data
-Where=/data
+Where=/var/data
 Type=nfs4
 
 [Install]

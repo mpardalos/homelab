@@ -17,9 +17,9 @@ systemd:
       dropins:
         - name: autologin-root.conf
           contents_local: autologin-root.conf
-    - name: data.mount
+    - name: var-data.mount
       enabled: true
-      contents_local: data.mount
+      contents_local: var-data.mount
 storage:
   files:
     - path: /etc/hostname
