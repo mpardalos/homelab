@@ -38,3 +38,6 @@ storage:
     - path: /etc/containers/systemd/sonarr.container
       contents:
         local: sonarr.container
+    - path: /etc/containers/systemd/radarr.container
+      contents:
+        local: radarr.container
