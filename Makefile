@@ -11,9 +11,9 @@ base-iso: $(ISO)
 reimage: upload
 	scripts/freya-reimage.sh
 
-.PHONY: upload
 upload: $(CUSTOM_ISO)
 	smbclient $(UPLOAD_SHARE) --directory $(UPLOAD_DIR) --no-pass --command "put $(CUSTOM_ISO)"
+	touch upload
 
 $(CUSTOM_ISO): $(ISO) $(IGNITION_FILE)
 	rm -f $(CUSTOM_ISO)
