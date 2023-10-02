@@ -35,3 +35,6 @@ storage:
     # - path: /etc/containers/systemd/qbittorrent.container
     #   contents:
     #     local: qbittorrent.container
+    - path: /etc/containers/systemd/sonarr.container
+      contents:
+        local: sonarr.container

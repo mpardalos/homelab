@@ -1,0 +1,23 @@
+[Unit]
+Description=Sonarr container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=gerbera
+Image=cr.hotio.dev/hotio/sonarr
+#
+PublishPort=8989:8989
+#
+Volume=/var/data/data/:/data
+Volume=/var/data/config/sonarr:/config
+#
+Environment=PUID=5000
+Environment=GUID=5000
+Environment=UMASK=002
+Environment=VIRTUAL_HOST=sonarr.home.mpardalos.com
+Environment=VIRTUAL_PORT=8989
+
+
+[Install]
+WantedBy=multi-user.target
