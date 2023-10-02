@@ -22,5 +22,5 @@ $(CUSTOM_ISO): $(ISO) $(IGNITION_FILE)
 $(ISO):
 	curl -LO https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/38.20230902.3.0/x86_64/fedora-coreos-38.20230902.3.0-live.x86_64.iso
 
-%.ign: %.bu
+%.ign: %.bu $(wildcard files/*)
 	butane --strict --files-dir files --output $@ $<
