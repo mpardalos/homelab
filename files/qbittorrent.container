@@ -8,8 +8,8 @@ ContainerName=qbittorrent
 #
 Image=cr.hotio.dev/hotio/qbittorrent
 #
-Volume=/var/data/config/qbittorrent:/config:Z
-Volume=/var/data/data:/data:Z
+Volume=/var/data/config/qbittorrent:/config
+Volume=/var/data/data:/data
 #
 AddCapability=NET_ADMIN
 #
