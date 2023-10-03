@@ -7,7 +7,7 @@ After=network-online.target
 ContainerName=radarr
 Image=cr.hotio.dev/hotio/radarr
 #
-PublishPort=8989:8989
+PublishPort=7878:7878
 #
 Volume=/var/data/data/:/data
 Volume=/var/data/config/radarr:/config
