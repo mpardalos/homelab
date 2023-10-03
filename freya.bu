@@ -43,3 +43,6 @@ storage:
     - path: /etc/containers/systemd/radarr.container
       contents:
         local: radarr.container
+    - path: /etc/containers/systemd/gluetun.container
+      contents:
+        local: gluetun.container

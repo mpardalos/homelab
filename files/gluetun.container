@@ -1,0 +1,37 @@
+[Unit]
+Description=Gluetun container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=gluetun
+Image=docker.io/qmcgaw/gluetun:latest
+
+# Required by gluetun
+AddCapability=NET_ADMIN
+AddDevice=/dev/net/tun:/dev/net/tun
+SecurityLabelDisable=true
+
+# Mullvad provider
+Environment=VPN_SERVICE_PROVIDER=mullvad
+Environment=VPN_TYPE=openvpn
+Environment=SERVER_COUNTRIES=UK
+# FIXME: THIS IS A SECRET
+Environment=OPENVPN_USER=9072706615313626
+
+# Control server
+PublishPort=8000:8000
+
+# HTTP proxy
+Environment=HTTPPROXY=on
+Environment=HTTPPROXY_LOG=on
+PublishPort=8888:8888/tcp
+
+# Shadowsocks proxy
+Environment=SHADOWSOCKS=on
+Environment=SHADOWSOCKS_PASSWORD=shadowsocks
+PublishPort=8388:8388/tcp
+PublishPort=8388:8388/udp
+
+[Install]
+WantedBy=multi-user.target
