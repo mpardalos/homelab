@@ -1,36 +1,22 @@
 [Unit]
-Description=qbittorrent container
-Wants=network-online.target
-After=network-online.target
+Description=qBittorrent container
+Wants=network-online.target gluetun.service
+After=network-online.target gluetun.service
 
 [Container]
 ContainerName=qbittorrent
 #
-Image=ghcr.io/hotio/qbittorrent
+Image=lscr.io/linuxserver/qbittorrent:latest
 #
 Volume=/var/data/config/qbittorrent:/config
 Volume=/var/data/data:/data
 #
-AddCapability=NET_ADMIN
-#
-Sysctl=net.ipv4.conf.all.src_valid_mark=1
-Sysctl=net.ipv6.conf.all.disable_ipv6=1
-#
-PublishPort=8080:8080
-PublishPort=8118:8118
+Network=container:gluetun
 #
 Environment=PUID=5000
 Environment=PGID=5000
-Environment=UMASK=002
 Environment=TZ=Europe/London
-Environment=VPN_ENABLED=true
-Environment=VPN_LAN_NETWORK=192.168.0.0/24
-Environment=VPN_CONF=mullvad-london
-Environment=VPN_IP_CHECK_DELAY=5
-Environment=PRIVOXY_ENABLED=false
-Environment=VIRTUAL_HOST=torrents.home.mpardalos.com
-Environment=VIRTUAL_PORT=8080
-
+Environment=WEBUI_PORT=8080
 
 [Install]
 WantedBy=multi-user.target

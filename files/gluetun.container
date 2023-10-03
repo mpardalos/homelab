@@ -33,5 +33,8 @@ Environment=SHADOWSOCKS_PASSWORD=shadowsocks
 PublishPort=8388:8388/tcp
 PublishPort=8388:8388/udp
 
+# Qbittorrent's WebUI port (it goes through this container)
+PublishPort=8080:8080
+
 [Install]
 WantedBy=multi-user.target

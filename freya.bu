@@ -32,10 +32,6 @@ storage:
     - path: /etc/containers/systemd/gerbera.container
       contents:
         local: gerbera.container
-    # This is a weird container. Disabled until I get everything else running
-    # - path: /etc/containers/systemd/qbittorrent.container
-    #   contents:
-    #     local: qbittorrent.container
     - path: /etc/containers/systemd/sonarr.container
       contents:
         local: sonarr.container
@@ -45,3 +41,6 @@ storage:
     - path: /etc/containers/systemd/gluetun.container
       contents:
         local: gluetun.container
+    - path: /etc/containers/systemd/qbittorrent.container
+      contents:
+        local: qbittorrent.container
