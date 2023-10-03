@@ -27,7 +27,6 @@ systemd:
 storage:
   files:
     - path: /etc/hostname
-      mode: 0644
       contents:
         inline: freya.home.mpardalos.com
     - path: /etc/containers/systemd/gerbera.container
