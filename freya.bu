@@ -16,7 +16,7 @@ passwd:
 
 systemd:
   units:
-    - name: serial-getty@ttyS0.service
+    - name: getty@tty1.service
       dropins:
         - name: autologin-root.conf
           contents_local: autologin-root.conf
