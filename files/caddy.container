@@ -1,0 +1,17 @@
+[Unit]
+Description=Caddy container
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=caddy
+Image=docker.io/caddy
+PublishPort=80:80
+PublishPort=443:443
+PublishPort=2019:2019
+Volume=/var/data/config/caddy/Caddyfile:/etc/caddy/Caddyfile
+Volume=/var/data/config/caddy/caddy_data:/data
+Volume=/var/data/config/caddy/caddy_config:/config
+
+[Install]
+WantedBy=multi-user.target
