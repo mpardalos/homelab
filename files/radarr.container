@@ -16,7 +16,7 @@ Environment=PUID=5000
 Environment=GUID=5000
 Environment=UMASK=002
 Environment=VIRTUAL_HOST=radarr.home.mpardalos.com
-Environment=VIRTUAL_PORT=8989
+Environment=VIRTUAL_PORT=7878
 
 
 [Install]
