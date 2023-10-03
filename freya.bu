@@ -13,6 +13,9 @@ passwd:
         - mpardalos@magni.pub
     - name: container
       uid: 5000
+  groups:
+    - name: data
+      gid: 2000
 
 systemd:
   units:
