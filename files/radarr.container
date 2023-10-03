@@ -4,7 +4,7 @@ Wants=network-online.target
 After=network-online.target
 
 [Container]
-ContainerName=gerbera
+ContainerName=radarr
 Image=cr.hotio.dev/hotio/radarr
 #
 PublishPort=8989:8989
