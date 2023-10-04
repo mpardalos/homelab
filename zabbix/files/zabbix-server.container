@@ -1,0 +1,19 @@
+[Unit]
+Description=Zabbix server container
+After=zabbix-pod.service
+Wants=zabbix-pod.service
+
+[Container]
+ContainerName=zabbix-server
+Image=docker.io/zabbix/zabbix-server-mysql:latest
+Environment=DB_SERVER_HOST="127.0.0.1"
+Environment=MYSQL_DATABASE="zabbix"
+Environment=MYSQL_USER="zabbix"
+Environment=MYSQL_PASSWORD="zabbix_pwd"
+Environment=MYSQL_ROOT_PASSWORD="root_pwd"
+Environment=ZBX_JAVAGATEWAY="127.0.0.1"
+PodmanArgs=--pod=zabbix
+PodmanArgs=--priviledged
+
+[Install]
+WantedBy=multi-user.target

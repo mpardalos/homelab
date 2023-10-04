@@ -1,0 +1,13 @@
+[Unit]
+Description=Zabbix agent container
+After=zabbix-pod.service
+Wants=zabbix-pod.service
+
+[Container]
+ContainerName=zabbix-agent
+Image=docker.io/zabbix/zabbix-agent-64:latest
+Environment=ZBX_SERVER_HOST="127.0.0.1,localhost"
+PodmanArgs=--pod=zabbix
+
+[Install]
+WantedBy=multi-user.target

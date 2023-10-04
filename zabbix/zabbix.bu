@@ -1,0 +1,54 @@
+# -*-yaml-*-
+variant: fcos
+version: 1.5.0
+passwd:
+  users:
+    - name: mpardalos
+      gecos: Michalis Pardalos
+      password_hash: '$y$j9T$Jp7QgXqNnm5qUpC0DmnIj0$7cdAnIcMo9geH4sprhR2ns0M35JetcOnPAcul5Smid7'
+      groups:
+        - wheel
+      ssh_authorized_keys_local:
+        - mpardalos@odin.pub
+        - mpardalos@magni.pub
+    - name: container
+      uid: 5000
+      groups:
+        - data
+  groups:
+    - name: data
+      gid: 2000
+
+systemd:
+  units:
+    - name: getty@tty1.service
+      dropins:
+        - name: autologin-root.conf
+          contents_local: autologin-root.conf
+    - name: var-data.mount
+      enabled: true
+      contents_local: var-data.mount
+    - name: zabbix-pod.service
+      enabled: true
+      contents_local: zabbix-pod.service
+
+storage:
+  files:
+    - path: /etc/hostname
+      contents:
+        inline: zabbix.home.mpardalos.com
+    - path: /etc/containers/systemd/zabbix-agent.container
+      contents:
+        inline: zabbix-agent.container
+    - path: /etc/containers/systemd/zabbix-java-gateway.container
+      contents:
+        inline: zabbix-java-gateway.container
+    - path: /etc/containers/systemd/zabbix-mysql.container
+      contents:
+        inline: zabbix-mysql.container
+    - path: /etc/containers/systemd/zabbix-server.container
+      contents:
+        inline: zabbix-server.container
+    - path: /etc/containers/systemd/zabbix-web.container
+      contents:
+        inline: zabbix-web.container
