@@ -13,6 +13,8 @@ passwd:
         - mpardalos@magni.pub
     - name: container
       uid: 5000
+      groups:
+        - data
   groups:
     - name: data
       gid: 2000
