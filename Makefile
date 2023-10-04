@@ -7,9 +7,9 @@ UPLOAD_DIR:=proxmox/template/iso
 custom-iso: $(CUSTOM_ISO)
 base-iso: $(ISO)
 
-.PHONY: reimage
-reimage: upload
-	scripts/freya-reimage.sh
+.PHONY: update-config
+update-config: upload
+	scripts/freya-reboot.sh
 
 upload: $(CUSTOM_ISO)
 	smbclient $(UPLOAD_SHARE) --directory $(UPLOAD_DIR) --no-pass --command "put $(CUSTOM_ISO)"
