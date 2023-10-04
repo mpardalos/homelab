@@ -5,7 +5,7 @@ After=network-online.target
 
 [Container]
 ContainerName=sonarr
-Image=cr.hotio.dev/hotio/sonarr
+Image=lscr.io/linuxserver/sonarr:latest
 #
 PublishPort=8989:8989
 #
@@ -15,9 +15,7 @@ Volume=/var/data/config/sonarr:/config
 Environment=PUID=5000
 Environment=GUID=5000
 Environment=UMASK=002
-Environment=VIRTUAL_HOST=sonarr.home.mpardalos.com
-Environment=VIRTUAL_PORT=8989
-
+Environment=TZ=Europe/London
 
 [Install]
 WantedBy=multi-user.target
