@@ -17,7 +17,7 @@ upload: $(CUSTOM_ISO)
 
 $(CUSTOM_ISO): $(ISO) $(IGNITION_FILE)
 	rm -f $(CUSTOM_ISO)
-	coreos-installer iso customize --dest-device /dev/vda --dest-ignition $(IGNITION_FILE) --output $(CUSTOM_ISO) $(ISO)
+	coreos-installer iso customize --live-ignition $(IGNITION_FILE) --output $(CUSTOM_ISO) $(ISO)
 
 $(ISO):
 	curl -LO https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/38.20230902.3.0/x86_64/fedora-coreos-38.20230902.3.0-live.x86_64.iso
