@@ -25,14 +25,24 @@ systemd:
       dropins:
         - name: autologin-root.conf
           contents_local: autologin-root.conf
-    - name: var-data.mount
-      enabled: true
-      contents_local: var-data.mount
     - name: zabbix-pod.service
       enabled: true
       contents_local: zabbix-pod.service
 
 storage:
+  disks:
+    - device: /dev/vdb
+      wipe_table: false
+      partitions:
+        - number: 0
+          start_mib: 0
+          size_mib: 0
+          label: mysql-data
+  filesystems:
+    - device: /dev/disk/by-partlabel/mysql-data
+      format: xfs
+      path: /var/mysql-data
+      wipe_filesystem: false
   files:
     - path: /etc/hostname
       contents:

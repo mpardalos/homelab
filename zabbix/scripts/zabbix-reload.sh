@@ -10,9 +10,5 @@ ssh-valhalla() {
     ssh -t root@valhalla.home.mpardalos.com $@
 }
 
-vm_id=$(ssh-valhalla qm list | grep Zabbix | awk '{ print $1 }')
-ssh-valhalla qm stop $vm_id
-ssh-valhalla qm rollback $vm_id pre-install
-ssh-valhalla qm start $vm_id
-
+ssh-zabbix "sudo systemctl reboot"
 ssh-keygen -R zabbix.home.mpardalos.com

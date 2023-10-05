@@ -17,6 +17,7 @@ upload: $(CUSTOM_ISO)
 
 $(CUSTOM_ISO): $(ISO) $(IGNITION_FILE)
 	rm -f $(CUSTOM_ISO)
+#	coreos-installer iso customize --live-ignition $(IGNITION_FILE) --output $(CUSTOM_ISO) $(ISO)
 	coreos-installer iso customize --dest-device /dev/vda --dest-ignition $(IGNITION_FILE) --output $(CUSTOM_ISO) $(ISO)
 
 $(ISO):
