@@ -1,7 +1,7 @@
 [Unit]
 Description=Zabbix Web container
-After=zabbix-pod.service
-Wants=zabbix-pod.service
+After=zabbix-pod.service network-online.target zabbix-server.service zabbix-mysql.service
+Wants=zabbix-pod.service network-online.target zabbix-server.service zabbix-mysql.service
 
 [Container]
 ContainerName=zabbix-web
