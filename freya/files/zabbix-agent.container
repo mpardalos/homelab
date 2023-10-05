@@ -1,0 +1,15 @@
+[Unit]
+Description=Zabbix agent container
+After=zabbix-pod.service network-online.target zabbix-server.service
+Wants=zabbix-pod.service network-online.target zabbix-server.service
+
+[Container]
+ContainerName=zabbix-agent
+Image=docker.io/zabbix/zabbix-agent:latest
+Environment=ZBX_SERVER_HOST="zabbix.home.mpardalos.com"
+Environment=ZBX_HOSTNAME="freya.home.mpardalos.com"
+PodmanArgs=--privileged
+PublishPort=10050:10050
+
+[Install]
+WantedBy=multi-user.target
