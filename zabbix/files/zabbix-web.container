@@ -5,7 +5,7 @@ Wants=zabbix-pod.service
 
 [Container]
 ContainerName=zabbix-web
-Image=docker.io/zabbix/zabbix-web-mysql-64
+Image=docker.io/zabbix/zabbix-web-nginx-mysql:latest
 PodmanArgs=--pod=zabbix
 Environment=ZBX_SERVER_HOST="127.0.0.1"
 Environment=DB_SERVER_HOST="127.0.0.1"

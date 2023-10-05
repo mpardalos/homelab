@@ -5,7 +5,7 @@ Wants=zabbix-pod.service
 
 [Container]
 ContainerName=zabbix-java-gateway
-Image=docker.io/zabbix/zabbix-java-gateway-64:latest
+Image=docker.io/zabbix/zabbix-java-gateway:latest
 PodmanArgs=--pod=zabbix
 
 [Install]

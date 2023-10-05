@@ -39,16 +39,16 @@ storage:
         inline: zabbix.home.mpardalos.com
     - path: /etc/containers/systemd/zabbix-agent.container
       contents:
-        inline: zabbix-agent.container
+        local: zabbix-agent.container
     - path: /etc/containers/systemd/zabbix-java-gateway.container
       contents:
-        inline: zabbix-java-gateway.container
+        local: zabbix-java-gateway.container
     - path: /etc/containers/systemd/zabbix-mysql.container
       contents:
-        inline: zabbix-mysql.container
+        local: zabbix-mysql.container
     - path: /etc/containers/systemd/zabbix-server.container
       contents:
-        inline: zabbix-server.container
+        local: zabbix-server.container
     - path: /etc/containers/systemd/zabbix-web.container
       contents:
-        inline: zabbix-web.container
+        local: zabbix-web.container

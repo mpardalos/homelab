@@ -13,7 +13,7 @@ Environment=MYSQL_PASSWORD="zabbix_pwd"
 Environment=MYSQL_ROOT_PASSWORD="root_pwd"
 Environment=ZBX_JAVAGATEWAY="127.0.0.1"
 PodmanArgs=--pod=zabbix
-PodmanArgs=--priviledged
+PodmanArgs=--privileged
 
 [Install]
 WantedBy=multi-user.target
