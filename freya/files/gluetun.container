@@ -1,7 +1,7 @@
 [Unit]
 Description=Gluetun container
-Wants=network-online.target
-After=network-online.target
+Wants=network-online.target torrent-pod.service
+After=network-online.target torrent-pod.service
 
 [Container]
 ContainerName=gluetun
@@ -19,22 +19,16 @@ Environment=SERVER_COUNTRIES=UK
 # FIXME: THIS IS A SECRET
 Environment=OPENVPN_USER=9072706615313626
 
-# Control server
-PublishPort=8000:8000
-
 # HTTP proxy
 Environment=HTTPPROXY=on
 Environment=HTTPPROXY_LOG=on
-PublishPort=8888:8888/tcp
 
 # Shadowsocks proxy
 Environment=SHADOWSOCKS=on
 Environment=SHADOWSOCKS_PASSWORD=shadowsocks
-PublishPort=8388:8388/tcp
-PublishPort=8388:8388/udp
 
-# Qbittorrent's WebUI port (it goes through this container)
-PublishPort=8080:8080
+# Torrent pod
+PodmanArgs=--pod=torrent
 
 [Install]
 WantedBy=multi-user.target

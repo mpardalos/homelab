@@ -28,6 +28,9 @@ systemd:
     - name: var-data.mount
       enabled: true
       contents_local: var-data.mount
+    - name: torrent-pod.service
+      enabled: true
+      contents_local: torrent-pod.service
 
 storage:
   files:
