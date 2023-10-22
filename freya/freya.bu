@@ -52,6 +52,9 @@ storage:
     - path: /etc/containers/systemd/qbittorrent.container
       contents:
         local: qbittorrent.container
+    - path: /etc/containers/systemd/prowlarr.container
+      contents:
+        local: prowlarr.container
     - path: /etc/containers/systemd/caddy.container
       contents:
         local: caddy.container

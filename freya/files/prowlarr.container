@@ -1,0 +1,21 @@
+[Unit]
+Description=Prowlarr container
+Wants=network-online.target gluetun.service torrent-pod.service
+After=network-online.target gluetun.service torrent-pod.service
+
+[Container]
+ContainerName=prowlarr
+#
+Image=lscr.io/linuxserver/prowlarr:latest
+#
+Volume=/var/data/config/prowlarr:/config
+#
+Environment=PUID=5000
+Environment=PGID=2000
+Environment=UMASK=002
+Environment=TZ=Europe/London
+#
+PodmanArgs=--pod=torrent
+
+[Install]
+WantedBy=multi-user.target

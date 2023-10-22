@@ -27,6 +27,13 @@ Environment=HTTPPROXY_LOG=on
 Environment=SHADOWSOCKS=on
 Environment=SHADOWSOCKS_PASSWORD=shadowsocks
 
+# Disable DNS-over-TLS
+Environment=DOT=off
+Environment=DNS_KEEP_NAMESERVER=on
+
+# Allow access to local network
+Environment=FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/24
+
 # Torrent pod
 PodmanArgs=--pod=torrent
 
