@@ -12,12 +12,14 @@ AddCapability=NET_ADMIN
 AddDevice=/dev/net/tun:/dev/net/tun
 SecurityLabelDisable=true
 
-# Mullvad provider
-Environment=VPN_SERVICE_PROVIDER=mullvad
-Environment=VPN_TYPE=openvpn
-Environment=SERVER_COUNTRIES=UK
+# AirVPN provider
+Environment=VPN_SERVICE_PROVIDER=airvpn
+Environment=VPN_TYPE=wireguard
 # FIXME: THIS IS A SECRET
-Environment=OPENVPN_USER=9072706615313626
+Environment=WIREGUARD_PRIVATE_KEY='uJr8vz2+AjKGEuOd8P1bCcx7fouHmfWpeygUeu4t40U='
+Environment=WIREGUARD_PRESHARED_KEY='RThO0ecGpNfvaInJCBEvHuR9vXY+8zdVLvYfjKDYrqI='
+Environment=WIREGUARD_ADDRESSES='10.184.78.106/32,fd7d:76ee:e68f:a993:e4e0:25eb:59c8:f8df/128'
+Environment=SERVER_COUNTRIES='United Kingdom'
 
 # HTTP proxy
 Environment=HTTPPROXY=on
