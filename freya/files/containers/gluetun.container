@@ -10,7 +10,7 @@ Image=docker.io/qmcgaw/gluetun:latest
 # Required by gluetun
 AddCapability=NET_ADMIN
 AddDevice=/dev/net/tun:/dev/net/tun
-SecurityLabelDisable=true
+PodmanArgs=--security-opt label=disable
 
 # AirVPN provider
 Environment=VPN_SERVICE_PROVIDER=airvpn

@@ -1,0 +1,70 @@
+- name: Freya setup
+  hosts: freya
+  become: true
+  tasks:
+    - name: Hostname is set correctly
+      hostname:
+        name: freya.home.mpardalos.com
+
+    - name: Packages
+      dnf:
+        name:
+          - nfs-utils
+          - container-tools
+          - podman-plugins
+        state: present
+
+    - name: /var/data directory exists
+      file:
+        path: /var/data
+        state: directory
+
+    - name: Data directory is mounted
+      mount:
+        src: freyr.home.mpardalos.com:/data
+        path: /var/data
+        state: mounted
+        fstype: nfs
+
+    - name: Container files are present
+      copy:
+        src: "files/containers/"
+        dest: "/etc/containers/systemd/"
+      register: container_files
+
+    - name: Torrent pod service file is present
+      copy:
+        src: "files/torrent-pod.service"
+        dest: "/etc/systemd/system/torrent-pod.service"
+      register: service_files
+
+    - name: systemd daemon-reload
+      systemd:
+        daemon_reload: true
+      when: container_files.changed or service_files.changed
+
+    - name: Container services are enabled
+      systemd:
+        name: "{{ item }}"
+        enabled: true
+        state: started
+      with_items:
+        - torrent-pod
+        - gluetun
+        - prowlarr
+        - qbittorrent
+        - gerbera
+        - radarr
+        - sonarr
+        - zabbix-agent
+        - caddy
+
+    - name: Firewall config
+      firewalld:
+        service: "{{ item }}"
+        state: enabled
+        immediate: true
+        permanent: true
+      with_items:
+        - http
+        - https
