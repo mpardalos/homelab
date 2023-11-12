@@ -1,0 +1,29 @@
+- name: Zabbix agents
+  hosts:
+    - freya
+    - freyr
+  become: true
+  tasks:
+    - name: Zabbix Agent | Packages
+      dnf:
+        name: zabbix-agent
+        state: present
+
+    - name: Zabbix Agent | Config
+      copy:
+        src: files/zabbix_agentd.conf
+        dest: /etc/zabbix_agentd.conf
+      register: zabbix_agent_config
+
+    - name: Zabbix Agent | Service
+      systemd:
+        name: zabbix-agent
+        state: started
+        enabled: true
+      register: zabbix_service
+
+    - name: Zabbix Agent | Reload service
+      systemd:
+        name: zabbix-agent
+        state: reloaded
+      when: zabbix_agent_config.changed and not zabbix_service.changed
