@@ -15,6 +15,11 @@
           - podman-plugins
         state: present
 
+    - name: container user and group exists
+      user:
+        name: container
+        uid: 5000
+
     - name: /var/data directory exists
       file:
         path: /var/data
