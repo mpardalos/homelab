@@ -8,8 +8,6 @@ ContainerName=gerbera
 Image=docker.io/gerbera/gerbera:latest
 Network=host
 Volume=/var/data/data/media:/content:ro
-User=container
-Group=container
 PodmanArgs=--group-add keep-groups
 
 [Install]
