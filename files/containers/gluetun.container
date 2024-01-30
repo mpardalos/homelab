@@ -6,6 +6,7 @@ After=network-online.target torrent-pod.service
 [Container]
 ContainerName=gluetun
 Image=docker.io/qmcgaw/gluetun:latest
+AutoUpdate=registry
 
 # Required by gluetun
 AddCapability=NET_ADMIN
