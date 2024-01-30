@@ -6,6 +6,7 @@ After=network-online.target
 [Container]
 ContainerName=sonarr
 Image=lscr.io/linuxserver/sonarr:latest
+AutoUpdate=registry
 #
 PublishPort=8989:8989
 #
