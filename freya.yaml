@@ -55,7 +55,8 @@
         enabled: true
         state: started
       with_items:
-        - torrent-pod
+        # This does not need to be started. It is required by the other ones
+        # - torrent-pod
         - gluetun
         - prowlarr
         - qbittorrent
