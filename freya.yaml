@@ -74,3 +74,11 @@
       with_items:
         - http
         - https
+
+    - name: Scripts
+      copy:
+        src: files/scripts/qb-rst
+        dest: /usr/local/bin/
+        owner: root
+        group: root
+        mode: u=rwx,g=rwx,o=rx
