@@ -23,7 +23,7 @@ Environment=WIREGUARD_ADDRESSES='10.184.78.106/32,fd7d:76ee:e68f:a993:e4e0:25eb:
 Environment=SERVER_COUNTRIES='United Kingdom'
 
 # Port forward
-Environment=FIREWALL_VPN_INPUT_PORTS=49699
+Environment=FIREWALL_VPN_INPUT_PORTS=37494
 
 # HTTP proxy
 Environment=HTTPPROXY=on
