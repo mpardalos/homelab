@@ -32,6 +32,33 @@
         state: mounted
         fstype: nfs
 
+    - tags: olivetin
+      block:
+        - name: OliveTin package
+          dnf:
+            name: https://github.com/OliveTin/OliveTin/releases/download/2024.03.24/OliveTin_linux_amd64.rpm
+            disable_gpg_check: true
+            state: present
+
+        - name: OliveTin config is present
+          copy:
+            src: files/olivetin-config.yaml
+            dest: /etc/OliveTin/config.yaml
+          register: olivetin_config
+
+        - name: OliveTin service is enabled
+          systemd:
+            name: OliveTin.service
+            state: started
+            enabled: true
+          register: olivetin_service
+
+        - name: OliveTin config reload
+          systemd:
+            name: OliveTin.service
+            state: restarted
+          when: olivetin_config.changed and not olivetin_service.changed
+
     - name: Container files are present
       copy:
         src: "files/containers/"
