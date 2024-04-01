@@ -1,0 +1,16 @@
+listenAddressSingleHTTPFrontend: 0.0.0.0:1337
+
+pageTitle: Actions
+showNavigation: true
+logLevel: "INFO"
+
+actions:
+  - title: Restart qBittorrent
+    shell: systemctl restart qbittorrent.service
+    icon: <iconify-icon icon="cbi:qbittorrent"></iconify-icon>
+    timeout: 20
+
+  - title: Restart media server
+    shell: systemctl restart gerbera.service
+    icon: <iconify-icon icon="fluent-mdl2:media"></iconify-icon>
+    timeout: 20
