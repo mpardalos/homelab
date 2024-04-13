@@ -14,3 +14,8 @@ actions:
     shell: systemctl restart gerbera.service
     icon: <iconify-icon icon="fluent-mdl2:media"></iconify-icon>
     timeout: 20
+
+  - title: Restart everything! (On Freya)
+    shell: systemctl reboot
+    icon: <iconify-icon icon="material-symbols:warning"></iconify-icon>
+    timeout: 20
