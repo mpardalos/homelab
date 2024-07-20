@@ -9,7 +9,7 @@ ContainerName=prowlarr
 Image=lscr.io/linuxserver/prowlarr:latest
 AutoUpdate=registry
 #
-Volume=/var/data/config/prowlarr:/config
+Volume=prowlarr-config:/config
 #
 Environment=PUID=5000
 Environment=PGID=2000
