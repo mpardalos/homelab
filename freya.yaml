@@ -59,40 +59,6 @@
             state: restarted
           when: olivetin_config.changed and not olivetin_service.changed
 
-    - name: Container files are present
-      copy:
-        src: "files/containers/"
-        dest: "/etc/containers/systemd/"
-      register: container_files
-
-    - name: Torrent pod service file is present
-      copy:
-        src: "files/torrent-pod.service"
-        dest: "/etc/systemd/system/torrent-pod.service"
-      register: service_files
-
-    - name: systemd daemon-reload
-      systemd:
-        daemon_reload: true
-      when: container_files.changed or service_files.changed
-
-    - name: Container services are enabled
-      systemd:
-        name: "{{ item }}"
-        enabled: true
-        state: started
-      with_items:
-        # This does not need to be started. It is required by the other ones
-        # - torrent-pod
-        - gluetun
-        - prowlarr
-        - qbittorrent
-        - gerbera
-        - radarr
-        - sonarr
-        - zabbix-agent
-        - caddy
-
     - name: Firewall config
       firewalld:
         service: "{{ item }}"
@@ -110,3 +76,6 @@
         owner: root
         group: root
         mode: u=rwx,g=rwx,o=rx
+
+- name: Containers
+  import_playbook: containers.yaml
