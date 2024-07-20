@@ -1,0 +1,40 @@
+# -*- eval: (ansible 1) -*-
+- name: Freya containers
+  hosts: freya
+  become: true
+  vars:
+    containers:
+        - gluetun
+        - prowlarr
+        - qbittorrent
+        - gerbera
+        - radarr
+        - sonarr
+        - zabbix-agent
+        - caddy
+        - jellyfin
+  tasks:
+    - name: Container files are present
+      copy:
+        src: "files/containers/{{ item }}.container"
+        dest: "/etc/containers/systemd/"
+      register: container_files
+      with_items: "{{ containers }}"
+
+    - name: Torrent pod service file is present
+      copy:
+        src: "files/torrent-pod.service"
+        dest: "/etc/systemd/system/torrent-pod.service"
+      register: service_files
+
+    - name: systemd daemon-reload
+      systemd:
+        daemon_reload: true
+      when: container_files.changed or service_files.changed
+
+    - name: Container services are enabled
+      systemd:
+        name: "{{ item }}"
+        enabled: true
+        state: started
+      with_items: "{{ containers }}"
