@@ -9,7 +9,7 @@ ContainerName=qbittorrent
 Image=lscr.io/linuxserver/qbittorrent:latest
 #
 Volume=qbittorrent-config:/config
-Volume=/var/data/data:/data
+Volume=/data/data:/data
 #
 Environment=PUID=5000
 Environment=PGID=2000

@@ -10,7 +10,7 @@ AutoUpdate=registry
 #
 PublishPort=8989:8989
 #
-Volume=/var/data/data/:/data
+Volume=/data/data/:/data
 Volume=sonarr-config:/config
 #
 Environment=PUID=5000
