@@ -20,15 +20,15 @@
         name: container
         uid: 5000
 
-    - name: /var/data directory exists
+    - name: /data directory exists
       file:
-        path: /var/data
+        path: /data
         state: directory
 
     - name: Data directory is mounted
       mount:
         src: freyr.home.mpardalos.com:/data
-        path: /var/data
+        path: /data
         state: mounted
         fstype: nfs
 

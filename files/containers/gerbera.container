@@ -8,7 +8,7 @@ ContainerName=gerbera
 Image=docker.io/gerbera/gerbera:latest
 AutoUpdate=registry
 Network=host
-Volume=/var/data/data/media:/content:ro
+Volume=/data/data/media:/content:ro
 Volume=gerbera-config:/var/run/gerbera
 PodmanArgs=--group-add keep-groups
 
