@@ -10,9 +10,9 @@ AutoUpdate=registry
 PublishPort=80:80
 PublishPort=443:443
 PublishPort=2019:2019
-Volume=/data/config/caddy/Caddyfile:/etc/caddy/Caddyfile
-Volume=/data/config/caddy/caddy_data:/data
-Volume=/data/config/caddy/caddy_config:/config
+Volume=/data/config/caddy/Caddyfile:/etc/caddy/Caddyfile:Z
+Volume=/data/config/caddy/caddy_data:/data:Z
+Volume=/data/config/caddy/caddy_config:/config:Z
 
 [Install]
 WantedBy=multi-user.target
