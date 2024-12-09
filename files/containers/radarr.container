@@ -10,7 +10,7 @@ AutoUpdate=registry
 #
 PublishPort=7878:7878
 #
-Volume=/data/data/:/data:Z
+Volume=/data/data/:/data:z
 Volume=radarr-config:/config
 #
 Environment=PUID=5000

@@ -13,7 +13,7 @@ PublishPort=8096:8096
 #PublishPort=7359:7359/udp #optional
 #PublishPort=1900:1900/udp #optional
 #
-Volume=/data/data/:/data:Z
+Volume=/data/data/:/data:z
 Volume=jellyfin-config:/config
 AddDevice=/dev/dri:/dev/dri
 #
