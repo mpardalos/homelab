@@ -26,7 +26,7 @@
         jellyfin.containerConfig = {
           image = "lscr.io/linuxserver/jellyfin:latest";
           autoUpdate = "registry";
-          publishPorts = [ "${toString config.my-services.jellyfin.port}:8096" ];
+          publishPorts = [ "127.0.0.1:${toString config.my-services.jellyfin.port}:8096" ];
           volumes = [
             "${config.my-services.datadir}:/data"
             "jellyfin-config:/config"

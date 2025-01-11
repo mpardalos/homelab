@@ -106,12 +106,13 @@
           pods = {
             torrent.podConfig = {
               publishPorts = [
-                "8000:8000" # Transferred from previous config, not sure why it's used
-                "${toString cfg.gluetun.http-proxy-port}:8888"
-                "${toString cfg.gluetun.shadowsocks-port}:8388/tcp"
-                "${toString cfg.gluetun.shadowsocks-port}:8388/udp"
-                "${toString cfg.qbittorrent.webui-port}:8080"
-                "${toString cfg.prowlarr.port}:9696"
+                # # Transferred from previous config, not sure why it's used
+                # "8000:8000"
+                "0.0.0.0:${toString cfg.gluetun.http-proxy-port}:8888"
+                "0.0.0.0:${toString cfg.gluetun.shadowsocks-port}:8388/tcp"
+                "0.0.0.0:${toString cfg.gluetun.shadowsocks-port}:8388/udp"
+                "127.0.0.1:${toString cfg.qbittorrent.webui-port}:8080"
+                "127.0.0.1:${toString cfg.prowlarr.port}:9696"
               ];
             };
           };
