@@ -21,7 +21,7 @@
         modules = [
           quadlet-nix.nixosModules.quadlet
           ./modules
-          ./nixie/configuration.nix
+          ./hosts/nixie
         ];
       };
 
