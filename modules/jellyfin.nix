@@ -30,14 +30,13 @@
           devices = [
             "/dev/dri:/dev/dri"
           ];
-          environments = {
-            PUID = config.my-services.PUID;
-            PGID = config.my-services.PGID;
-            UMASK = "002";
-            TZ = config.time.timeZone;
-            JELLYFIN_PublishedServerUrl = "jellyfin.${domain}";
-            DOCKER_MODS = "linuxserver/mods:jellyfin-opencl-intel";
-          };
+          environments =
+            config.my-services.container-env
+            // config.my-services.linuxserver-container-env
+            // {
+              JELLYFIN_PublishedServerUrl = "jellyfin.${domain}";
+              DOCKER_MODS = "linuxserver/mods:jellyfin-opencl-intel";
+            };
         };
       };
       services.caddy = {

@@ -25,13 +25,6 @@
 
       virtualisation.quadlet =
         let
-          usualEnv = {
-            PUID = config.my-services.PUID;
-            PGID = config.my-services.PGID;
-            UMASK = "002";
-            TZ = config.time.timeZone;
-          };
-
           inherit (config.virtualisation.quadlet) networks pods;
         in
         {
@@ -41,7 +34,7 @@
               autoUpdate = "registry";
               volumes = [ "prowlarr-config:/config" ];
               pod = pods.torrent.ref;
-              environments = usualEnv;
+              environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
             };
             qbittorrent.containerConfig = {
               image = "lscr.io/linuxserver/qbittorrent:latest";
@@ -51,9 +44,12 @@
                 "qbittorrent-config:/config"
               ];
               pod = pods.torrent.ref;
-              environments = usualEnv // {
-                WEBUI_PORT = "${cfg.qbittorrent.webui-port}";
-              };
+              environments =
+                config.my-services.container-env
+                // config.my-services.linuxserver-container-env
+                // {
+                  WEBUI_PORT = "${cfg.qbittorrent.webui-port}";
+                };
             };
             gluetun.containerConfig = {
               image = "docker.io/qmcgaw/gluetun:latest";
@@ -65,7 +61,7 @@
               devices = [ "/dev/net/tun:/dev/net/tun" ];
               podmanArgs = [ "--security-opt label=disable" ];
 
-              environments = {
+              environments = config.my-services.container-env // {
                 # AirVPN provider
                 VPN_SERVICE_PROVIDER = "airvpn";
                 VPN_TYPE = "wireguard";

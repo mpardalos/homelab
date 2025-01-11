@@ -15,14 +15,14 @@
       description = "Location containing media (to be mounted as /data in containers)";
     };
 
-    PUID = mkOption {
-      type = types.str;
-      description = "UID for linuxserver containers. See https://docs.linuxserver.io/general/understanding-puid-and-pgid/";
+    container-env = mkOption {
+      type = types.attrsOf types.str;
+      description = "Default env for all containers";
     };
 
-    PGID = mkOption {
-      type = types.str;
-      description = "UID for linuxserver containers. See https://docs.linuxserver.io/general/understanding-puid-and-pgid/";
+    linuxserver-container-env = mkOption {
+      type = types.attrsOf types.str;
+      description = "Default env for linuxserver containers";
     };
   };
 }
