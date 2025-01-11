@@ -54,8 +54,14 @@
   my-services = {
     domain = "home.mpardalos.com";
     datadir = "/data/data";
-    PUID = "5000";
-    PGID = "2000";
+    container-env = {
+      TZ = config.time.timeZone;
+    };
+    linuxserver-container-env = {
+      PUID = "5000";
+      PGID = "2000";
+      UMASK = "002";
+    };
     sonarr = {
       enable = true;
       port = "8989";

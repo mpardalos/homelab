@@ -22,12 +22,7 @@
           "${config.my-services.datadir}:/data"
           "radarr-config:/config"
         ];
-        environments = {
-          PUID = config.my-services.PUID;
-          PGID = config.my-services.PGID;
-          UMASK = "002";
-          TZ = config.time.timeZone;
-        };
+        environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
       };
     };
     services.caddy =
