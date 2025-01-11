@@ -1,9 +1,0 @@
-[Unit]
-Description=Create zabbix pod
-
-[Service]
-Type=oneshot
-ExecStart=sh -c "podman pod exists zabbix || podman pod create --name zabbix -p 80:8080 -p 10051:10051"
-
-[Install]
-WantedBy=multi-user.target
