@@ -5,7 +5,7 @@
       type = types.bool;
       default = false;
     };
-    port = mkOption { type = types.str; };
+    port = mkOption { type = types.port; };
   };
   config = lib.mkIf config.my-services.sonarr.enable {
     virtualisation = {
@@ -13,11 +13,16 @@
       podman.enable = true;
     };
 
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
+
     virtualisation.quadlet.containers = {
       radarr.containerConfig = {
         image = "lscr.io/linuxserver/radarr:latest";
         autoUpdate = "registry";
-        publishPorts = [ "${config.my-services.radarr.port}:7878" ];
+        publishPorts = [ "${toString config.my-services.radarr.port}:7878" ];
         volumes = [
           "${config.my-services.datadir}:/data"
           "radarr-config:/config"
@@ -25,16 +30,11 @@
         environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
       };
     };
-    services.caddy =
-      let
-        domain = config.my-services.domain;
-        FQDN = "${config.networking.hostName}.${domain}";
-      in
-      {
-        enable = true;
-        virtualHosts."http://radarr.${domain}".extraConfig = ''
-          reverse_proxy http://${FQDN}:${config.my-services.radarr.port}
-        '';
-      };
+    services.caddy = {
+      enable = true;
+      virtualHosts."http://radarr.${config.my-services.domain}".extraConfig = ''
+        reverse_proxy http://localhost:${toString config.my-services.radarr.port}
+      '';
+    };
   };
 }

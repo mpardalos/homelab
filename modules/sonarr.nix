@@ -5,7 +5,7 @@
       type = types.bool;
       default = false;
     };
-    port = mkOption { type = types.str; };
+    port = mkOption { type = types.port; };
   };
   config = lib.mkIf config.my-services.sonarr.enable {
     virtualisation = {
@@ -13,11 +13,16 @@
       podman.enable = true;
     };
 
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
+
     virtualisation.quadlet.containers = {
       sonarr.containerConfig = {
         image = "lscr.io/linuxserver/sonarr:latest";
         autoUpdate = "registry";
-        publishPorts = [ "${config.my-services.sonarr.port}:8989" ];
+        publishPorts = [ "${toString config.my-services.sonarr.port}:8989" ];
         volumes = [
           "${config.my-services.datadir}:/data"
           "sonarr-config:/config"
@@ -26,16 +31,11 @@
       };
     };
 
-    services.caddy =
-      let
-        domain = config.my-services.domain;
-        FQDN = "${config.networking.hostName}.${domain}";
-      in
-      {
-        enable = true;
-        virtualHosts."http://sonarr.${domain}".extraConfig = ''
-          reverse_proxy http://${FQDN}:${config.my-services.sonarr.port}
-        '';
-      };
+    services.caddy = {
+      enable = true;
+      virtualHosts."http://sonarr.${config.my-services.domain}".extraConfig = ''
+        reverse_proxy http://localhost:${toString config.my-services.sonarr.port}
+      '';
+    };
   };
 }
