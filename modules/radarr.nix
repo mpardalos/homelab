@@ -22,7 +22,7 @@
       radarr.containerConfig = {
         image = "lscr.io/linuxserver/radarr:latest";
         autoUpdate = "registry";
-        publishPorts = [ "${toString config.my-services.radarr.port}:7878" ];
+        publishPorts = [ "127.0.0.1:${toString config.my-services.radarr.port}:7878" ];
         volumes = [
           "${config.my-services.datadir}:/data"
           "radarr-config:/config"

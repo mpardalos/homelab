@@ -22,7 +22,7 @@
       sonarr.containerConfig = {
         image = "lscr.io/linuxserver/sonarr:latest";
         autoUpdate = "registry";
-        publishPorts = [ "${toString config.my-services.sonarr.port}:8989" ];
+        publishPorts = [ "127.0.0.1:${toString config.my-services.sonarr.port}:8989" ];
         volumes = [
           "${config.my-services.datadir}:/data"
           "sonarr-config:/config"
