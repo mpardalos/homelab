@@ -6,6 +6,7 @@
   nix = {
     gc.automatic = true;
     settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.trusted-users = [ "root" "@wheel" ];
   };
 
   boot.loader.systemd-boot.enable = true;
