@@ -1,4 +1,0 @@
-# -*- eval: (ansible 1) -*-
-- import_playbook: freyr.yaml
-- import_playbook: freya.yaml
-- import_playbook: zabbix_agents.yaml
