@@ -200,8 +200,6 @@
       '';
   };
 
-  services.technitium-dns-server.enable = true;
-
   # Most users should NEVER change this value after the initial install, for any reason,
   # even if you've upgraded your system to a new NixOS release.
   system.stateVersion = "24.11"; # Did you read the comment?
