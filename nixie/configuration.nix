@@ -44,7 +44,7 @@
 
   services.openssh.enable = true;
 
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
 
   fileSystems."/data" = {
     device = "/dev/disk/by-uuid/f2e7e959-0e92-46a0-b53f-9a4f3609d9fa";
@@ -64,23 +64,23 @@
     };
     sonarr = {
       enable = true;
-      port = "8989";
+      port = 8989;
     };
     radarr = {
       enable = true;
-      port = "7878";
+      port = 7878;
     };
     jellyfin = {
       enable = true;
-      port = "8096";
+      port = 8096;
     };
     torrents = {
       enable = true;
-      prowlarr.port = "9696";
-      qbittorrent.webui-port = "8080";
+      prowlarr.port = 9696;
+      qbittorrent.webui-port = 8080;
       gluetun = {
-        http-proxy-port = "8888";
-        shadowsocks-port = "8388";
+        http-proxy-port = 8888;
+        shadowsocks-port = 8388;
       };
     };
   };

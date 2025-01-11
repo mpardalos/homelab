@@ -5,12 +5,11 @@
       type = types.bool;
       default = false;
     };
-    port = mkOption { type = types.str; };
+    port = mkOption { type = types.port; };
   };
   config = lib.mkIf config.my-services.sonarr.enable (
     let
-      domain = config.my-services.domain;
-      FQDN = "${config.networking.hostName}.${domain}";
+      jellyfin-url = "jellyfin.${config.my-services.domain}";
     in
     {
       virtualisation = {
@@ -18,11 +17,16 @@
         podman.enable = true;
       };
 
+      networking.firewall.allowedTCPPorts = [
+        80
+        443
+      ];
+
       virtualisation.quadlet.containers = {
         jellyfin.containerConfig = {
           image = "lscr.io/linuxserver/jellyfin:latest";
           autoUpdate = "registry";
-          publishPorts = [ "${config.my-services.jellyfin.port}:8096" ];
+          publishPorts = [ "${toString config.my-services.jellyfin.port}:8096" ];
           volumes = [
             "${config.my-services.datadir}:/data"
             "jellyfin-config:/config"
@@ -34,15 +38,15 @@
             config.my-services.container-env
             // config.my-services.linuxserver-container-env
             // {
-              JELLYFIN_PublishedServerUrl = "jellyfin.${domain}";
+              JELLYFIN_PublishedServerUrl = jellyfin-url;
               DOCKER_MODS = "linuxserver/mods:jellyfin-opencl-intel";
             };
         };
       };
       services.caddy = {
         enable = true;
-        virtualHosts."http://jellyfin.${domain}".extraConfig = ''
-          reverse_proxy http://${FQDN}:${config.my-services.jellyfin.port}
+        virtualHosts."http://${jellyfin-url}".extraConfig = ''
+          reverse_proxy http://localhost:${toString config.my-services.jellyfin.port}
         '';
       };
     }

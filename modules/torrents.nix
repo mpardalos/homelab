@@ -5,11 +5,11 @@
       type = types.bool;
       default = false;
     };
-    prowlarr.port = mkOption { type = types.str; };
-    qbittorrent.webui-port = mkOption { type = types.str; };
+    prowlarr.port = mkOption { type = types.port; };
+    qbittorrent.webui-port = mkOption { type = types.port; };
     gluetun = {
-      http-proxy-port = mkOption { type = types.str; };
-      shadowsocks-port = mkOption { type = types.str; };
+      http-proxy-port = mkOption { type = types.port; };
+      shadowsocks-port = mkOption { type = types.port; };
     };
   };
   config =
@@ -22,6 +22,18 @@
         containers.enable = true;
         podman.enable = true;
       };
+
+      networking.firewall.allowedTCPPorts = [
+        cfg.gluetun.http-proxy-port
+        cfg.gluetun.shadowsocks-port
+        # For caddy
+        80
+        443
+      ];
+
+      networking.firewall.allowedUDPPorts = [
+        cfg.gluetun.shadowsocks-port
+      ];
 
       virtualisation.quadlet =
         let
@@ -48,7 +60,7 @@
                 config.my-services.container-env
                 // config.my-services.linuxserver-container-env
                 // {
-                  WEBUI_PORT = "${cfg.qbittorrent.webui-port}";
+                  WEBUI_PORT = toString cfg.qbittorrent.webui-port;
                 };
             };
             gluetun.containerConfig = {
@@ -95,31 +107,26 @@
             torrent.podConfig = {
               publishPorts = [
                 "8000:8000" # Transferred from previous config, not sure why it's used
-                "${cfg.gluetun.http-proxy-port}:8888"
-                "${cfg.gluetun.shadowsocks-port}:8388/tcp"
-                "${cfg.gluetun.shadowsocks-port}:8388/udp"
-                "${cfg.qbittorrent.webui-port}:8080"
-                "${cfg.prowlarr.port}:9696"
+                "${toString cfg.gluetun.http-proxy-port}:8888"
+                "${toString cfg.gluetun.shadowsocks-port}:8388/tcp"
+                "${toString cfg.gluetun.shadowsocks-port}:8388/udp"
+                "${toString cfg.qbittorrent.webui-port}:8080"
+                "${toString cfg.prowlarr.port}:9696"
               ];
             };
           };
         };
 
-      services.caddy =
-        let
-          domain = config.my-services.domain;
-          FQDN = "${config.networking.hostName}.${domain}";
-        in
-        {
-          enable = true;
-          virtualHosts = {
-            "http://torrents.${domain}".extraConfig = ''
-              reverse_proxy http://${FQDN}:${cfg.qbittorrent.webui-port}
-            '';
-            "http://prowlarr.${domain}".extraConfig = ''
-              reverse_proxy http://${FQDN}:${cfg.prowlarr.port}
-            '';
-          };
+      services.caddy = {
+        enable = true;
+        virtualHosts = {
+          "http://torrents.${config.my-services.domain}".extraConfig = ''
+            reverse_proxy http://localhost:${toString cfg.qbittorrent.webui-port}
+          '';
+          "http://prowlarr.${config.my-services.domain}".extraConfig = ''
+            reverse_proxy http://localhost:${toString cfg.prowlarr.port}
+          '';
         };
+      };
     };
 }
