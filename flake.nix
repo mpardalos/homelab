@@ -19,8 +19,9 @@
       nixosConfigurations.nixie = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixie/configuration.nix
           quadlet-nix.nixosModules.quadlet
+          ./modules
+          ./nixie/configuration.nix
         ];
       };
 
