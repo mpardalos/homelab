@@ -36,6 +36,10 @@
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
+      packages."x86_64-linux".olivetin =
+        nixpkgs.legacyPackages."x86_64-linux".callPackage
+          (import ./packages/olivetin.nix) {};
+
       devShells."x86_64-linux".default =
         let
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
