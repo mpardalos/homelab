@@ -89,6 +89,26 @@
     };
   };
 
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+    nmbd.enable = true;
+    settings = {
+      "public" = {
+        "path" = "/data/data";
+        "read only" = "yes";
+        "browseable" = "yes";
+        "guest ok" = "yes";
+        "comment" = "Public samba share.";
+      };
+    };
+  };
+
   # Most users should NEVER change this value after the initial install, for any reason,
   # even if you've upgraded your system to a new NixOS release.
   system.stateVersion = "24.11"; # Did you read the comment?
