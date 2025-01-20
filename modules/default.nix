@@ -5,5 +5,6 @@
     ./radarr.nix
     ./jellyfin.nix
     ./torrents.nix
+    ./freshrss.nix
   ];
 }

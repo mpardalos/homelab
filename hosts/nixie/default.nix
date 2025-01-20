@@ -87,6 +87,10 @@
         shadowsocks-port = 8388;
       };
     };
+    freshrss = {
+      enable = true;
+      port = 8001;
+    };
   };
 
   services.samba-wsdd = {
