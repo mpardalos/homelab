@@ -6,8 +6,8 @@
       default = false;
     };
     port = mkOption { type = types.port; };
-    adminUsername = mkOption { type = types.string; };
-    adminPassword = mkOption { type = types.string; };
+    adminUsername = mkOption { type = types.str; };
+    adminPassword = mkOption { type = types.str; };
   };
   config =
     let
@@ -50,9 +50,10 @@
               ADMIN_USERNAME = cfg.adminUsername;
               ADMIN_PASSWORD = cfg.adminPassword;
             };
+            healthCmd = "/usr/bin/miniflux -healthcheck auto";
             pod = pods.miniflux.ref;
           };
-          miniflux-postgres.containerConfig = {
+          miniflux-postgres.containerConfig = rec {
             image = "docker.io/postgres:17-alpine";
             autoUpdate = "registry";
             environments = config.my-services.container-env // {
@@ -61,6 +62,8 @@
               POSTGRES_DB = dbDatabase;
             };
             volumes = [ "miniflux-db:/var/lib/postgresql/data" ];
+            healthCmd = "pg_isready -U ${dbUser} -d ${dbDatabase}";
+            healthStartupCmd = healthCmd;
             pod = pods.miniflux.ref;
           };
         };
