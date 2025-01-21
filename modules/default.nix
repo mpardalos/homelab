@@ -6,5 +6,6 @@
     ./jellyfin.nix
     ./torrents.nix
     ./freshrss.nix
+    ./miniflux.nix
   ];
 }

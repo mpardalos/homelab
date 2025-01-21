@@ -91,6 +91,12 @@
       enable = true;
       port = 8001;
     };
+    miniflux = {
+      enable = true;
+      port = 8002;
+      adminUsername = "admin";
+      adminPassword = "m1n1flux4adm1n";
+    };
   };
 
   services.samba-wsdd = {
