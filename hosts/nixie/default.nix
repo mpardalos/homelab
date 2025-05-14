@@ -88,11 +88,11 @@
       };
     };
     freshrss = {
-      enable = true;
+      enable = false;
       port = 8001;
     };
     miniflux = {
-      enable = true;
+      enable = false;
       port = 8002;
       adminUsername = "admin";
       adminPassword = "m1n1flux4adm1n";
