@@ -119,6 +119,26 @@
     };
   };
 
+  services.olivetin = {
+    enable = true;
+    settings.ListenAddressSingleHTTPFrontend = "0.0.0.0:1337";
+    settings.actions = [
+      {
+        title = "Restart EVERYTHING";
+        shell = "reboot";
+        icon = ''<iconify-icon icon="ix:reboot" width="48" style="color: #ca2302"></iconify-icon>'';
+      }
+    ];
+  };
+
+  # For Olivetin
+  services.caddy = {
+    enable = true;
+    virtualHosts."http://buttons.${config.my-services.domain}".extraConfig = ''
+      reverse_proxy http://localhost:1337
+    '';
+  };
+
   # Most users should NEVER change this value after the initial install, for any reason,
   # even if you've upgraded your system to a new NixOS release.
   system.stateVersion = "24.11"; # Did you read the comment?

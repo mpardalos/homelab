@@ -68,6 +68,39 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1739923778,
+        "narHash": "sha256-BqUY8tz0AQ4to2Z4+uaKczh81zsGZSYxjgvtw+fvIfM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "36864ed72f234b9540da4cf7a0c49e351d30d3f1",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-24.11",
+        "type": "indirect"
+      }
+    },
+    "olivetin": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1740231161,
+        "narHash": "sha256-1PMqt2pLXsx+VyU31rqU73ncTVpTvxeQm+uoJeO7Xgo=",
+        "owner": "bake",
+        "repo": "olivetin-flake",
+        "rev": "4b8937cab73170dcbae0c77abe109935c0fb7c32",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bake",
+        "repo": "olivetin-flake",
+        "type": "github"
+      }
+    },
     "quadlet-nix": {
       "inputs": {
         "nixpkgs": [
@@ -92,6 +125,7 @@
       "inputs": {
         "deploy-rs": "deploy-rs",
         "nixpkgs": "nixpkgs_2",
+        "olivetin": "olivetin",
         "quadlet-nix": "quadlet-nix"
       }
     },

@@ -9,7 +9,7 @@
   };
   config = lib.mkIf config.my-services.sonarr.enable (
     let
-      jellyfin-url = "jellyfin.${config.my-services.domain}";
+      my-url = "http://jellyfin.${config.my-services.domain}";
     in
     {
       virtualisation = {
@@ -38,17 +38,27 @@
             config.my-services.container-env
             // config.my-services.linuxserver-container-env
             // {
-              JELLYFIN_PublishedServerUrl = jellyfin-url;
+              JELLYFIN_PublishedServerUrl = my-url;
               DOCKER_MODS = "linuxserver/mods:jellyfin-opencl-intel";
             };
         };
       };
+
       services.caddy = {
         enable = true;
-        virtualHosts."http://${jellyfin-url}".extraConfig = ''
+        virtualHosts.${my-url}.extraConfig = ''
           reverse_proxy http://localhost:${toString config.my-services.jellyfin.port}
         '';
       };
+
+      services.olivetin.settings.actions = [
+        {
+          title = "Restart jellyfin";
+          shell = "systemctl restart jellyfin.service";
+          timeout = 10;
+          icon = ''<img src = "${my-url}/web/favicon.png" width = "48px"/>'';
+        }
+      ];
     }
   );
 }
