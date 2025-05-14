@@ -16,6 +16,8 @@
     let
       services-cfg = config.my-services;
       cfg = config.my-services.torrents;
+      qbittorrent-url = "http://torrents.${config.my-services.domain}";
+      prowlarr-url = "http://prowlarr.${config.my-services.domain}";
     in
     lib.mkIf cfg.enable {
       virtualisation = {
@@ -121,13 +123,34 @@
       services.caddy = {
         enable = true;
         virtualHosts = {
-          "http://torrents.${config.my-services.domain}".extraConfig = ''
+          ${qbittorrent-url}.extraConfig = ''
             reverse_proxy http://localhost:${toString cfg.qbittorrent.webui-port}
           '';
-          "http://prowlarr.${config.my-services.domain}".extraConfig = ''
+          ${prowlarr-url}.extraConfig = ''
             reverse_proxy http://localhost:${toString cfg.prowlarr.port}
           '';
         };
       };
+
+      services.olivetin.settings.actions = [
+        {
+          title = "Restart prowlarr";
+          shell = "systemctl restart prowlarr.service";
+          timeout = 10;
+          icon = ''<img src = "${prowlarr-url}/favicon.ico" width = "48px"/>'';
+        }
+        {
+          title = "Restart qbittorrent";
+          shell = "systemctl restart qbittorrent.service";
+          timeout = 10;
+          icon = ''<img src = "${qbittorrent-url}/images/qbittorrent-tray.svg" width = "48px"/>'';
+        }
+        {
+          title = "Restart gluetun";
+          shell = "systemctl restart gluetun.service";
+          timeout = 10;
+          icon = ''<iconify-icon icon="flat-color-icons:lock" width="48"></iconify-icon>'';
+        }
+      ];
     };
 }
