@@ -7,5 +7,6 @@
     ./torrents.nix
     ./freshrss.nix
     ./miniflux.nix
+    ./olivetin.nix
   ];
 }
