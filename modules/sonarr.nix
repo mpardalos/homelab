@@ -42,13 +42,9 @@
         '';
       };
 
-      services.olivetin.settings.actions = [
-        {
-          title = "Restart sonarr";
-          shell = "systemctl restart sonarr.service";
-          timeout = 10;
-          icon = ''<img src = "${my-url}/favicon.ico" width = "48px"/>'';
-        }
-      ];
+      my-services.olivetin.service-buttons.sonarr = {
+        serviceName = "sonarr.service";
+        icon.url = "${my-url}/favicon.ico";
+      };
     };
 }

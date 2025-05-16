@@ -132,25 +132,19 @@
         };
       };
 
-      services.olivetin.settings.actions = [
-        {
-          title = "Restart prowlarr";
-          shell = "systemctl restart prowlarr.service";
-          timeout = 10;
-          icon = ''<img src = "${prowlarr-url}/favicon.ico" width = "48px"/>'';
-        }
-        {
-          title = "Restart qbittorrent";
-          shell = "systemctl restart qbittorrent.service";
-          timeout = 10;
-          icon = ''<img src = "${qbittorrent-url}/images/qbittorrent-tray.svg" width = "48px"/>'';
-        }
-        {
-          title = "Restart gluetun";
-          shell = "systemctl restart gluetun.service";
-          timeout = 10;
-          icon = ''<iconify-icon icon="flat-color-icons:lock" width="48"></iconify-icon>'';
-        }
-      ];
+      my-services.olivetin.service-buttons = {
+        prowlarr = {
+          serviceName = "prowlarr.service";
+          icon.url = "${prowlarr-url}/favicon.ico";
+        };
+        qbittorrent = {
+          serviceName = "qbittorrent.service";
+          icon.url = "${qbittorrent-url}/images/qbittorrent-tray.svg";
+        };
+        gluetun = {
+          serviceName = "gluetun.service";
+          icon.html = ''<iconify-icon icon="flat-color-icons:lock" width="48"></iconify-icon>'';
+        };
+      };
     };
 }

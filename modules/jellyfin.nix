@@ -51,14 +51,10 @@
         '';
       };
 
-      services.olivetin.settings.actions = [
-        {
-          title = "Restart jellyfin";
-          shell = "systemctl restart jellyfin.service";
-          timeout = 10;
-          icon = ''<img src = "${my-url}/web/favicon.png" width = "48px"/>'';
-        }
-      ];
+      my-services.olivetin.service-buttons.jellyfin = {
+        serviceName = "jellyfin.service";
+        icon.url = "${my-url}/web/favicon.png";
+      };
     }
   );
 }
