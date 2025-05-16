@@ -42,13 +42,9 @@
         '';
       };
 
-      services.olivetin.settings.actions = [
-        {
-          title = "Restart radarr";
-          shell = "systemctl restart radarr.service";
-          timeout = 10;
-          icon = "<img src = \"${my-url}/favicon.ico\" width = \"48px\"/>";
-        }
-      ];
+      my-services.olivetin.service-buttons.radarr = {
+        serviceName = "radarr.service";
+        icon.url = "${my-url}/favicon.ico";
+      };
     };
 }
