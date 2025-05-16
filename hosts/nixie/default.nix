@@ -101,25 +101,9 @@
       enable = true;
       port = 1337;
     };
-  };
-
-  services.samba-wsdd = {
-    enable = true;
-    openFirewall = true;
-  };
-
-  services.samba = {
-    enable = true;
-    openFirewall = true;
-    nmbd.enable = true;
-    settings = {
-      "public" = {
-        "path" = "/data/data";
-        "read only" = "yes";
-        "browseable" = "yes";
-        "guest ok" = "yes";
-        "comment" = "Public samba share.";
-      };
+    samba = {
+      enable = true;
+      shares.public.path = "/data/data";
     };
   };
 

@@ -8,5 +8,6 @@
     ./freshrss.nix
     ./miniflux.nix
     ./olivetin.nix
+    ./samba.nix
   ];
 }
