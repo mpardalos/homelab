@@ -7,20 +7,15 @@
     };
     port = mkOption { type = types.port; };
   };
-  config =
+  config = lib.mkIf config.my-services.sonarr.enable (
     let
-      my-url = "http://radarr.${config.my-services.domain}";
+      my-url = config.my-services.reverse-proxy.services.radarr.url;
     in
-    lib.mkIf config.my-services.sonarr.enable {
+    {
       virtualisation = {
         containers.enable = true;
         podman.enable = true;
       };
-
-      networking.firewall.allowedTCPPorts = [
-        80
-        443
-      ];
 
       virtualisation.quadlet.containers = {
         radarr.containerConfig = {
@@ -35,16 +30,14 @@
         };
       };
 
-      services.caddy = {
-        enable = true;
-        virtualHosts.${my-url}.extraConfig = ''
-          reverse_proxy http://localhost:${toString config.my-services.radarr.port}
-        '';
+      my-services.reverse-proxy.services = {
+        radarr.port = config.my-services.radarr.port;
       };
 
       my-services.olivetin.service-buttons.radarr = {
         serviceName = "radarr.service";
         icon.url = "${my-url}/favicon.ico";
       };
-    };
+    }
+  );
 }

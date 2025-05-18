@@ -56,8 +56,11 @@
   };
 
   my-services = {
-    domain = "home.mpardalos.com";
     datadir = "/data/data";
+    reverse-proxy = {
+      enable = true;
+      domain = "home.mpardalos.com";
+    };
     container-env = {
       TZ = config.time.timeZone;
     };
@@ -86,16 +89,6 @@
         http-proxy-port = 8888;
         shadowsocks-port = 8388;
       };
-    };
-    freshrss = {
-      enable = false;
-      port = 8001;
-    };
-    miniflux = {
-      enable = false;
-      port = 8002;
-      adminUsername = "admin";
-      adminPassword = "m1n1flux4adm1n";
     };
     olivetin = {
       enable = true;

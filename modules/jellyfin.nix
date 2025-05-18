@@ -9,18 +9,13 @@
   };
   config = lib.mkIf config.my-services.sonarr.enable (
     let
-      my-url = "http://jellyfin.${config.my-services.domain}";
+      my-url = config.my-services.reverse-proxy.services.jellyfin.url;
     in
     {
       virtualisation = {
         containers.enable = true;
         podman.enable = true;
       };
-
-      networking.firewall.allowedTCPPorts = [
-        80
-        443
-      ];
 
       virtualisation.quadlet.containers = {
         jellyfin.containerConfig = {
@@ -44,11 +39,8 @@
         };
       };
 
-      services.caddy = {
-        enable = true;
-        virtualHosts.${my-url}.extraConfig = ''
-          reverse_proxy http://localhost:${toString config.my-services.jellyfin.port}
-        '';
+      my-services.reverse-proxy.services = {
+        jellyfin.port = config.my-services.jellyfin.port;
       };
 
       my-services.olivetin.service-buttons.jellyfin = {
