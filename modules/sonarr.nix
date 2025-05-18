@@ -9,18 +9,13 @@
   };
   config =
     let
-      my-url = "http://sonarr.${config.my-services.domain}";
+      my-url = config.my-services.reverse-proxy.services.sonarr.url;
     in
     lib.mkIf config.my-services.sonarr.enable {
       virtualisation = {
         containers.enable = true;
         podman.enable = true;
       };
-
-      networking.firewall.allowedTCPPorts = [
-        80
-        443
-      ];
 
       virtualisation.quadlet.containers = {
         sonarr.containerConfig = {
@@ -35,11 +30,8 @@
         };
       };
 
-      services.caddy = {
-        enable = true;
-        virtualHosts.${my-url}.extraConfig = ''
-          reverse_proxy http://localhost:${toString config.my-services.sonarr.port}
-        '';
+      my-services.reverse-proxy.services = {
+        sonarr.port = config.my-services.sonarr.port;
       };
 
       my-services.olivetin.service-buttons.sonarr = {

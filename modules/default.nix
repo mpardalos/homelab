@@ -5,9 +5,8 @@
     ./radarr.nix
     ./jellyfin.nix
     ./torrents.nix
-    ./freshrss.nix
-    ./miniflux.nix
     ./olivetin.nix
+    ./reverse-proxy.nix
     ./samba.nix
   ];
 }

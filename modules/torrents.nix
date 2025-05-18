@@ -16,8 +16,8 @@
     let
       services-cfg = config.my-services;
       cfg = config.my-services.torrents;
-      qbittorrent-url = "http://torrents.${config.my-services.domain}";
-      prowlarr-url = "http://prowlarr.${config.my-services.domain}";
+      qbittorrent-url = config.my-services.reverse-proxy.services.torrents.url;
+      prowlarr-url = config.my-services.reverse-proxy.services.prowlarr.url;
     in
     lib.mkIf cfg.enable {
       virtualisation = {
@@ -28,9 +28,6 @@
       networking.firewall.allowedTCPPorts = [
         cfg.gluetun.http-proxy-port
         cfg.gluetun.shadowsocks-port
-        # For caddy
-        80
-        443
       ];
 
       networking.firewall.allowedUDPPorts = [
@@ -120,16 +117,9 @@
           };
         };
 
-      services.caddy = {
-        enable = true;
-        virtualHosts = {
-          ${qbittorrent-url}.extraConfig = ''
-            reverse_proxy http://localhost:${toString cfg.qbittorrent.webui-port}
-          '';
-          ${prowlarr-url}.extraConfig = ''
-            reverse_proxy http://localhost:${toString cfg.prowlarr.port}
-          '';
-        };
+      my-services.reverse-proxy.services = {
+        torrents.port = cfg.qbittorrent.webui-port;
+        prowlarr.port = cfg.prowlarr.port;
       };
 
       my-services.olivetin.service-buttons = {
