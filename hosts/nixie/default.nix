@@ -81,6 +81,10 @@
       enable = true;
       port = 8096;
     };
+    ersatztv = {
+      enable = true;
+      port = 8409;
+    };
     torrents = {
       enable = true;
       prowlarr.port = 9696;
