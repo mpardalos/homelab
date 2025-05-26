@@ -137,10 +137,9 @@
       };
       dashboard.icon.url = "${expose.hostname}/favicon.ico";
       container = {
-        image = "docker.io/jasongdove/ersatztv";
-        publishPorts = [
-          "127.0.0.1:${toString expose.port}:8096"
-        ];
+        image = "docker.io/jasongdove/ersatztv:latest-vaapi";
+        publishPorts = [ "127.0.0.1:${toString expose.port}:8409" ];
+        devices = [ "/dev/dri:/dev/dri" ];
         volumes = [
           "${config.my-services.settings.datadir}:/data"
           "ersatztv-config:/config"
