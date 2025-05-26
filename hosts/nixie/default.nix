@@ -23,6 +23,10 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Magic incantation to allow booting with intel GPU passthrough
+  # https://www.reddit.com/r/NixOS/comments/14cjbnr/gpu_passthrough_wont_work_in_nixos_guest/
+  # Most of the config is in proxmox though, and I haven't figured that out
+  hardware.enableRedistributableFirmware = lib.mkDefault true;
 
   networking.hostName = "nixie";
   networking = {
