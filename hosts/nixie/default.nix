@@ -72,6 +72,44 @@
     };
   };
 
+  services.homepage-dashboard = {
+    enable = true;
+    listenPort = 8082;
+    services = [
+      {
+        Media = [
+          {
+            Sonarr = {
+              href = "http://sonarr.home.mpardalos.com";
+              icon = "sonarr";
+              widget = {
+                  type = "sonarr";
+                  url = "http://sonarr.home.mpardalos.com";
+                  key = "bc04c8ad2965440ab1b01e40f004fbb7";
+                };
+            };
+          }
+          {
+            Radarr = {
+              href = "http://radarr.home.mpardalos.com";
+              icon = "radarr";
+            };
+          }
+          {
+            Jellyfin = {
+              href = "http://jellyfin.home.mpardalos.com";
+              icon = "jellyfin";
+            };
+          }
+        ];
+      }
+    ];
+  };
+  my-services.extra.homepage-dashboard.expose = {
+    hostname = "home.mpardalos.com";
+    port = config.services.homepage-dashboard.listenPort;
+  };
+
   my-services.extra = {
     sonarr = rec {
       expose = {
