@@ -59,6 +59,11 @@
     fsType = "btrfs";
   };
 
+  my-services.samba = {
+      enable = true;
+      shares.public.path = "/data/data";
+  };
+
   my-services.settings = {
     datadir = "/data/data";
     reverse-proxy.enable = true;
