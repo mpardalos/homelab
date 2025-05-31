@@ -82,7 +82,7 @@
       port = 8096;
     };
     ersatztv = {
-      enable = true;
+      enable = false;
       port = 8409;
     };
     torrents = {
