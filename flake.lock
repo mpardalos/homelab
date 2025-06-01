@@ -54,65 +54,27 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1746957726,
-        "narHash": "sha256-k9ut1LSfHCr0AW82ttEQzXVCqmyWVA5+SHJkS5ID/Jo=",
+        "lastModified": 1748437600,
+        "narHash": "sha256-hYKMs3ilp09anGO7xzfGs3JqEgUqFMnZ8GMAqI6/k04=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a39ed32a651fdee6842ec930761e31d1f242cb94",
+        "rev": "7282cb574e0607e65224d33be8241eae7cfe0979",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-24.11",
+        "ref": "nixos-25.05",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
-        "lastModified": 1739923778,
-        "narHash": "sha256-BqUY8tz0AQ4to2Z4+uaKczh81zsGZSYxjgvtw+fvIfM=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "36864ed72f234b9540da4cf7a0c49e351d30d3f1",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "nixos-24.11",
-        "type": "indirect"
-      }
-    },
-    "olivetin": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_3"
-      },
-      "locked": {
-        "lastModified": 1740231161,
-        "narHash": "sha256-1PMqt2pLXsx+VyU31rqU73ncTVpTvxeQm+uoJeO7Xgo=",
-        "owner": "bake",
-        "repo": "olivetin-flake",
-        "rev": "4b8937cab73170dcbae0c77abe109935c0fb7c32",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bake",
-        "repo": "olivetin-flake",
         "type": "github"
       }
     },
     "quadlet-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
       "locked": {
-        "lastModified": 1746457417,
-        "narHash": "sha256-Eno9poUcLhWfMvs4H9Eb8JnXT5LFVhQ6G3UiEb0iKoA=",
+        "lastModified": 1748295604,
+        "narHash": "sha256-GDqEYNafnb4kpz3OUhfrpS7ys5r8QR/t1t7fPA6XLRQ=",
         "owner": "SEIAROTg",
         "repo": "quadlet-nix",
-        "rev": "11315f2c85e7ef9022115ce73386852e60de2c11",
+        "rev": "5f4bc5934584eb2b6f0b8e3e13041fe76f2947b6",
         "type": "github"
       },
       "original": {
@@ -125,7 +87,6 @@
       "inputs": {
         "deploy-rs": "deploy-rs",
         "nixpkgs": "nixpkgs_2",
-        "olivetin": "olivetin",
         "quadlet-nix": "quadlet-nix"
       }
     },

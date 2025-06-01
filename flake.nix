@@ -1,12 +1,11 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     quadlet-nix = {
       url = "github:SEIAROTg/quadlet-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deploy-rs.url = "github:serokell/deploy-rs";
-    olivetin.url = "github:bake/olivetin-flake";
   };
   outputs =
     {
@@ -14,7 +13,6 @@
       nixpkgs,
       quadlet-nix,
       deploy-rs,
-      olivetin,
       ...
     }@attrs:
     {
@@ -22,7 +20,6 @@
         system = "x86_64-linux";
         modules = [
           quadlet-nix.nixosModules.quadlet
-          olivetin.nixosModules.default
           ./modules
           ./hosts/nixie
         ];
