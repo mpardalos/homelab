@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  service-name ? "sonarr",
   ...
 }:
 {
@@ -9,27 +8,12 @@
   config =
     let
       cfg = config.my-services.sonarr;
-      image = "lscr.io/linuxserver/sonarr:latest";
-      port = 8989;
+      port = config.services.sonarr.settings.server.port;
       service-name = "sonarr";
       my-url = config.my-services.reverse-proxy.services.${service-name}.url;
     in
     lib.mkIf cfg.enable {
-      virtualisation.containers.enable = true;
-      virtualisation.podman.enable = true;
-
-      virtualisation.quadlet.containers.${service-name}.containerConfig = {
-        inherit image;
-        autoUpdate = "registry";
-        publishPorts = [
-          "127.0.0.1:${toString port}:${toString port}"
-        ];
-        volumes = [
-          "${config.my-services.datadir}:/data"
-          "${service-name}-config:/config"
-        ];
-        environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
-      };
+      services.sonarr.enable = true;
 
       my-services.reverse-proxy.services = {
         ${service-name}.port = port;
