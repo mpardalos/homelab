@@ -1,40 +1,41 @@
-{ config, lib, ... }:
 {
-  options.my-services.freshrss = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    port = mkOption { type = types.port; };
-  };
-  config = lib.mkIf config.my-services.freshrss.enable {
-    virtualisation = {
-      containers.enable = true;
-      podman.enable = true;
-    };
+  config,
+  lib,
+  ...
+}:
+{
+  options.my-services.freshrss.enable = lib.mkEnableOption "FreshRSS";
+  config =
+    let
+      cfg = config.my-services.freshrss;
+      image = "lscr.io/linuxserver/freshrss:latest";
+      port = 80;
+      service-name = "freshrss";
+      my-url = config.my-services.reverse-proxy.services.${service-name}.url;
+    in
+    lib.mkIf cfg.enable {
+      virtualisation.containers.enable = true;
+      virtualisation.podman.enable = true;
 
-    networking.firewall.allowedTCPPorts = [
-      80
-      443
-    ];
-
-    virtualisation.quadlet.containers = {
-      freshrss.containerConfig = {
-        image = "lscr.io/linuxserver/freshrss:latest";
+      virtualisation.quadlet.containers.${service-name}.containerConfig = {
+        inherit image;
         autoUpdate = "registry";
-        publishPorts = [ "127.0.0.1:${toString config.my-services.freshrss.port}:80" ];
+        publishPorts = [
+          "127.0.0.1:${toString port}:${toString port}"
+        ];
         volumes = [
-          "freshrss-config:/config"
+          "${service-name}-config:/config"
         ];
         environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
       };
-    };
 
-    services.caddy = {
-      enable = true;
-      virtualHosts."http://freshrss.${config.my-services.domain}".extraConfig = ''
-        reverse_proxy http://localhost:${toString config.my-services.freshrss.port}
-      '';
+      my-services.reverse-proxy.services = {
+        ${service-name}.port = port;
+      };
+
+      my-services.olivetin.service-buttons.${service-name} = {
+        serviceName = "${service-name}.service";
+        icon.url = "${my-url}/favicon.ico";
+      };
     };
-  };
 }

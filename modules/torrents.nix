@@ -1,37 +1,36 @@
-{ config, lib, ... }:
 {
-  options.my-services.torrents = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    prowlarr.port = mkOption { type = types.port; };
-    qbittorrent.webui-port = mkOption { type = types.port; };
-    gluetun = {
-      http-proxy-port = mkOption { type = types.port; };
-      shadowsocks-port = mkOption { type = types.port; };
-    };
-  };
+  config,
+  lib,
+  ...
+}:
+{
+  options.my-services.torrents.enable = lib.mkEnableOption "Torrent-related services";
   config =
     let
-      services-cfg = config.my-services;
+      prowlarr-image = "lscr.io/linuxserver/prowlarr:latest";
+      prowlarr-port = 9696;
+      qbittorrent-image = "lscr.io/linuxserver/qbittorrent:latest";
+      qbittorrent-webui-port = 8080;
+      gluetun-image = "docker.io/qmcgaw/gluetun:latest";
+      gluetun-http-proxy-port = 8888;
+      gluetun-shadowsocks-port = 8388;
+
       cfg = config.my-services.torrents;
+      datadir = config.my-services.datadir;
       qbittorrent-url = config.my-services.reverse-proxy.services.torrents.url;
       prowlarr-url = config.my-services.reverse-proxy.services.prowlarr.url;
     in
     lib.mkIf cfg.enable {
-      virtualisation = {
-        containers.enable = true;
-        podman.enable = true;
-      };
+      virtualisation.containers.enable = true;
+      virtualisation.podman.enable = true;
 
       networking.firewall.allowedTCPPorts = [
-        cfg.gluetun.http-proxy-port
-        cfg.gluetun.shadowsocks-port
+        gluetun-http-proxy-port
+        gluetun-shadowsocks-port
       ];
 
       networking.firewall.allowedUDPPorts = [
-        cfg.gluetun.shadowsocks-port
+        gluetun-shadowsocks-port
       ];
 
       virtualisation.quadlet =
@@ -41,17 +40,17 @@
         {
           containers = {
             prowlarr.containerConfig = {
-              image = "lscr.io/linuxserver/prowlarr:latest";
+              image = prowlarr-image;
               autoUpdate = "registry";
               volumes = [ "prowlarr-config:/config" ];
               pod = pods.torrent.ref;
               environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
             };
             qbittorrent.containerConfig = {
-              image = "lscr.io/linuxserver/qbittorrent:latest";
+              image = qbittorrent-image;
               autoUpdate = "registry";
               volumes = [
-                "${services-cfg.datadir}:/data"
+                "${datadir}:/data"
                 "qbittorrent-config:/config"
               ];
               pod = pods.torrent.ref;
@@ -59,11 +58,11 @@
                 config.my-services.container-env
                 // config.my-services.linuxserver-container-env
                 // {
-                  WEBUI_PORT = toString cfg.qbittorrent.webui-port;
+                  WEBUI_PORT = toString qbittorrent-webui-port;
                 };
             };
             gluetun.containerConfig = {
-              image = "docker.io/qmcgaw/gluetun:latest";
+              image = gluetun-image;
               pod = pods.torrent.ref;
 
               # Required by gluetun
@@ -105,21 +104,19 @@
           pods = {
             torrent.podConfig = {
               publishPorts = [
-                # # Transferred from previous config, not sure why it's used
-                # "8000:8000"
-                "0.0.0.0:${toString cfg.gluetun.http-proxy-port}:8888"
-                "0.0.0.0:${toString cfg.gluetun.shadowsocks-port}:8388/tcp"
-                "0.0.0.0:${toString cfg.gluetun.shadowsocks-port}:8388/udp"
-                "127.0.0.1:${toString cfg.qbittorrent.webui-port}:8080"
-                "127.0.0.1:${toString cfg.prowlarr.port}:9696"
+                "0.0.0.0:${toString gluetun-http-proxy-port}:${toString gluetun-http-proxy-port}"
+                "0.0.0.0:${toString gluetun-shadowsocks-port}:${toString gluetun-shadowsocks-port}/tcp"
+                "0.0.0.0:${toString gluetun-shadowsocks-port}:${toString gluetun-shadowsocks-port}/udp"
+                "127.0.0.1:${toString qbittorrent-webui-port}:${toString qbittorrent-webui-port}"
+                "127.0.0.1:${toString prowlarr-port}:${toString prowlarr-port}"
               ];
             };
           };
         };
 
       my-services.reverse-proxy.services = {
-        torrents.port = cfg.qbittorrent.webui-port;
-        prowlarr.port = cfg.prowlarr.port;
+        torrents.port = qbittorrent-webui-port;
+        prowlarr.port = prowlarr-port;
       };
 
       my-services.olivetin.service-buttons = {

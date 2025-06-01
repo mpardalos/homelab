@@ -69,38 +69,14 @@
       PGID = "2000";
       UMASK = "002";
     };
-    sonarr = {
-      enable = true;
-      port = 8989;
-    };
-    radarr = {
-      enable = true;
-      port = 7878;
-    };
-    jellyfin = {
-      enable = true;
-      port = 8096;
-    };
-    ersatztv = {
-      enable = false;
-      port = 8409;
-    };
-    torrents = {
-      enable = true;
-      prowlarr.port = 9696;
-      qbittorrent.webui-port = 8080;
-      gluetun = {
-        http-proxy-port = 8888;
-        shadowsocks-port = 8388;
-      };
-    };
-    olivetin = {
-      enable = true;
-      port = 1337;
-    };
+    sonarr.enable = true;
+    radarr.enable = true;
+    jellyfin.enable = true;
+    torrents.enable = true;
+    olivetin.enable = true;
     samba = {
       enable = true;
-      shares.public.path = "/data/data";
+      shares.public.path = config.my-services.datadir;
     };
   };
 

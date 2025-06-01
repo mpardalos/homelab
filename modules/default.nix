@@ -9,5 +9,7 @@
     ./olivetin.nix
     ./reverse-proxy.nix
     ./samba.nix
+    ./freshrss.nix
+    ./miniflux.nix
   ];
 }

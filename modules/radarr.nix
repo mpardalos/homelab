@@ -1,43 +1,41 @@
-{ config, lib, ... }:
 {
-  options.my-services.radarr = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    port = mkOption { type = types.port; };
-  };
-  config = lib.mkIf config.my-services.sonarr.enable (
+  config,
+  lib,
+  ...
+}:
+{
+  options.my-services.radarr.enable = lib.mkEnableOption "Radarr";
+  config =
     let
-      my-url = config.my-services.reverse-proxy.services.radarr.url;
+      cfg = config.my-services.radarr;
+      port = 7878;
+      service-name = "radarr";
+      my-url = config.my-services.reverse-proxy.services.${service-name}.url;
     in
-    {
-      virtualisation = {
-        containers.enable = true;
-        podman.enable = true;
-      };
+    lib.mkIf cfg.enable {
+      virtualisation.containers.enable = true;
+      virtualisation.podman.enable = true;
 
-      virtualisation.quadlet.containers = {
-        radarr.containerConfig = {
-          image = "lscr.io/linuxserver/radarr:latest";
-          autoUpdate = "registry";
-          publishPorts = [ "127.0.0.1:${toString config.my-services.radarr.port}:7878" ];
-          volumes = [
-            "${config.my-services.datadir}:/data"
-            "radarr-config:/config"
-          ];
-          environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
-        };
+      virtualisation.quadlet.containers.${service-name}.containerConfig = {
+        image = "lscr.io/linuxserver/radarr:latest";
+        autoUpdate = "registry";
+        publishPorts = [
+          "127.0.0.1:${toString port}:${toString port}"
+        ];
+        volumes = [
+          "${config.my-services.datadir}:/data"
+          "${service-name}-config:/config"
+        ];
+        environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
       };
 
       my-services.reverse-proxy.services = {
-        radarr.port = config.my-services.radarr.port;
+        ${service-name}.port = port;
       };
 
-      my-services.olivetin.service-buttons.radarr = {
-        serviceName = "radarr.service";
+      my-services.olivetin.service-buttons.${service-name} = {
+        serviceName = "${service-name}.service";
         icon.url = "${my-url}/favicon.ico";
       };
-    }
-  );
+    };
 }

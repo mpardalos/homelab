@@ -1,43 +1,42 @@
-{ config, lib, ... }:
 {
-  options.my-services.ersatztv = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    port = mkOption { type = types.port; };
-  };
-  config = lib.mkIf config.my-services.sonarr.enable (
+  config,
+  lib,
+  ...
+}:
+{
+  options.my-services.ersatztv.enable = lib.mkEnableOption "ErsatzTV";
+  config =
     let
-      my-url = config.my-services.reverse-proxy.services.ersatztv.url;
+      image = "docker.io/jasongdove/ersatztv";
+      port = 8409;
+      cfg = config.my-services.ersatztv;
+      service-name = "ersatztv";
+      my-url = config.my-services.reverse-proxy.services.${service-name}.url;
     in
-    {
-      virtualisation = {
-        containers.enable = true;
-        podman.enable = true;
-      };
+    lib.mkIf cfg.enable {
+      virtualisation.containers.enable = true;
+      virtualisation.podman.enable = true;
 
-      virtualisation.quadlet.containers = {
-        ersatztv.containerConfig = {
-          image = "docker.io/jasongdove/ersatztv";
-          autoUpdate = "registry";
-          publishPorts = [ "127.0.0.1:${toString config.my-services.ersatztv.port}:8409" ];
-          volumes = [
-            "${config.my-services.datadir}:/data:ro"
-            "ersatztv-config:/root/.local/share/ersatztv"
-          ];
-          environments = config.my-services.container-env;
-        };
+      virtualisation.quadlet.containers.${service-name}.containerConfig = {
+        inherit image;
+        autoUpdate = "registry";
+        publishPorts = [
+          "127.0.0.1:${toString port}:${toString port}"
+        ];
+        volumes = [
+          "${config.my-services.datadir}:/data:ro"
+          "${service-name}-config:/root/.local/share/ersatztv"
+        ];
+        environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
       };
 
       my-services.reverse-proxy.services = {
-        ersatztv.port = config.my-services.ersatztv.port;
+        ${service-name}.port = port;
       };
 
-      my-services.olivetin.service-buttons.ersatztv = {
-        serviceName = "ersatztv.service";
+      my-services.olivetin.service-buttons.${service-name} = {
+        serviceName = "${service-name}.service";
         icon.url = "${my-url}/favicon.ico";
       };
-    }
-  );
+    };
 }

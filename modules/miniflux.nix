@@ -1,20 +1,18 @@
 { config, lib, ... }:
 {
   options.my-services.miniflux = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    port = mkOption { type = types.port; };
+    enable = mkEnableOption "Miniflux";
     adminUsername = mkOption { type = types.str; };
     adminPassword = mkOption { type = types.str; };
   };
   config =
     let
       cfg = config.my-services.miniflux;
+      port = 8080;
       dbUser = "miniflux";
       dbPassword = "m1n1fl0x3r0x1";
       dbDatabase = "miniflux";
+      my-url = config.my-services.reverse-proxy.services.miniflux.url;
     in
     lib.mkIf cfg.enable {
       virtualisation = {
@@ -22,14 +20,9 @@
         podman.enable = true;
       };
 
-      networking.firewall.allowedTCPPorts = [
-        80
-        443
-      ];
-
       virtualisation.quadlet.pods.miniflux.podConfig = {
         publishPorts = [
-          "127.0.0.1:${toString cfg.port}:8080"
+          "127.0.0.1:${toString port}:8080"
         ];
       };
 
@@ -68,14 +61,13 @@
           };
         };
 
-      services.caddy = {
-        enable = true;
-        virtualHosts."http://miniflux.${config.my-services.domain}".extraConfig = ''
-          reverse_proxy http://localhost:${toString cfg.port}
-        '';
-        virtualHosts."https://miniflux.${config.my-services.domain}".extraConfig = ''
-          reverse_proxy http://localhost:${toString cfg.port}
-        '';
+      my-services.reverse-proxy.services = {
+        miniflux.port = port;
+      };
+
+      my-services.olivetin.service-buttons.miniflux = {
+        serviceName = "miniflux-web.service";
+        icon.url = "${my-url}/favicon.ico";
       };
     };
 }
