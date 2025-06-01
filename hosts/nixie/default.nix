@@ -56,7 +56,7 @@
   };
 
   my-services = {
-    datadir = "/data/data";
+    datadir = "/data";
     reverse-proxy = {
       enable = true;
       domain = "home.mpardalos.com";
