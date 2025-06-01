@@ -16,6 +16,7 @@
       virtualisation.containers.enable = true;
       virtualisation.podman.enable = true;
 
+      # We use the container for this because it includes all dependencies (ffmpeg and such).
       virtualisation.quadlet.containers.${service-name}.containerConfig = {
         image = "lscr.io/linuxserver/jellyfin:latest";
         autoUpdate = "registry";
