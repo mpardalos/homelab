@@ -69,7 +69,7 @@
               addCapabilities = [ "NET_ADMIN" ];
 
               devices = [ "/dev/net/tun:/dev/net/tun" ];
-              podmanArgs = [ "--security-opt label=disable" ];
+              podmanArgs = [ "--security-opt" "label=disable" ];
 
               environments = config.my-services.container-env // {
                 # AirVPN provider
