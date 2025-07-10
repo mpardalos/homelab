@@ -56,6 +56,8 @@
     fsType = "btrfs";
   };
 
+  virtualisation.quadlet.autoEscape = true;
+
   my-services = {
     datadir = "/data";
     reverse-proxy = {
