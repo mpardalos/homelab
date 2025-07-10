@@ -13,34 +13,10 @@
       my-url = config.my-services.reverse-proxy.services.${service-name}.url;
     in
     lib.mkIf cfg.enable {
-      virtualisation.containers.enable = true;
-      virtualisation.podman.enable = true;
-
-      # We use the container for this because it includes all dependencies (ffmpeg and such).
-      virtualisation.quadlet.containers.${service-name}.containerConfig = {
-        image = "lscr.io/linuxserver/jellyfin:latest";
-        autoUpdate = "registry";
-        publishPorts = [
-          "127.0.0.1:${toString port}:${toString port}"
-        ];
-        volumes = [
-          "${config.my-services.datadir}:/data"
-          "${service-name}-config:/config"
-        ];
-        devices = [
-          "/dev/dri:/dev/dri"
-        ];
-        environments =
-          config.my-services.container-env
-          // config.my-services.linuxserver-container-env
-          // {
-            JELLYFIN_PublishedServerUrl = my-url;
-            DOCKER_MODS = "linuxserver/mods:jellyfin-opencl-intel";
-          };
-      };
+      services.jellyfin.enable = true;
 
       my-services.reverse-proxy.services = {
-        ${service-name}.port = 8096;
+        ${service-name}.port = port;
       };
 
       my-services.olivetin.service-buttons.${service-name} = {
