@@ -78,8 +78,8 @@
                 # FIXME: THIS IS A SECRET
                 WIREGUARD_PRIVATE_KEY = ""..."";
                 WIREGUARD_PRESHARED_KEY = ""..."";
-                WIREGUARD_ADDRESSES = "10.184.78.106/32,fd7d:76ee:e68f:a993:e4e0:25eb:59c8:f8df/128";
-                SERVER_COUNTRIES = "United Kingdom";
+                WIREGUARD_ADDRESSES = "10.146.65.192/32,fd7d:76ee:e68f:a993:9c12:41a6:b18e:14c4/128";
+                SERVER_REGIONS = "Europe";
 
                 # Port forward
                 FIREWALL_VPN_INPUT_PORTS = "37494";
