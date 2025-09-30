@@ -1,11 +1,9 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    quadlet-nix = {
-      url = "github:SEIAROTg/quadlet-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
     deploy-rs.url = "github:serokell/deploy-rs";
+    nixarr.url = "github:mpardalos/nixarr";
   };
   outputs =
     {
@@ -13,17 +11,21 @@
       nixpkgs,
       quadlet-nix,
       deploy-rs,
+      nixarr,
       ...
-    }@attrs:
+    }@inputs:
     {
       nixosConfigurations.nixie = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           quadlet-nix.nixosModules.quadlet
+          nixarr.nixosModules.default
           ./modules
           ./hosts/nixie
         ];
       };
+
+      specialArgs = { inherit inputs; };
 
       deploy.nodes.nixie = {
         hostname = "nixie.home.mpardalos.com";

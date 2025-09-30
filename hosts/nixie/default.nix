@@ -58,11 +58,39 @@
 
   virtualisation.quadlet.autoEscape = true;
 
+  nixarr = {
+    enable = true;
+    mediaDir = "/data/media";
+    stateDir = "/data/nixarr";
+    vpn = {
+      enable = true;
+      wgConf = "/data/wg.conf";
+    };
+    transmission = {
+      enable = true;
+      vpn.enable = true;
+      peerPort = 37494;
+      extraSettings = {
+        download-dir = "/data/downloads/";
+        incomplete-dir = "/data/downloads/.incomplete/";
+        # Needed to access transmission from a DNS name
+        rpc-host-whitelist-enabled = false;
+      };
+    };
+    prowlarr = {
+      enable = true;
+    };
+  };
+
   my-services = {
     datadir = "/data";
     reverse-proxy = {
       enable = true;
       domain = "home.mpardalos.com";
+      services = {
+        torrents.port = config.nixarr.transmission.uiPort;
+        prowlarr.port = config.nixarr.prowlarr.port;
+      };
     };
     container-env = {
       TZ = config.time.timeZone;
@@ -75,7 +103,6 @@
     sonarr.enable = true;
     radarr.enable = true;
     jellyfin.enable = true;
-    torrents.enable = true;
     olivetin.enable = true;
     samba = {
       enable = true;

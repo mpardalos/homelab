@@ -7,11 +7,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1749105467,
-        "narHash": "sha256-hXh76y/wDl15almBcqvjryB50B0BaiXJKk20f314RoE=",
+        "lastModified": 1756719547,
+        "narHash": "sha256-N9gBKUmjwRKPxAafXEk1EGadfk2qDZPBQp4vXWPHINQ=",
         "owner": "serokell",
         "repo": "deploy-rs",
-        "rev": "6bc76b872374845ba9d645a2f012b764fecd765f",
+        "rev": "125ae9e3ecf62fb2c0fd4f2d894eb971f1ecaed2",
         "type": "github"
       },
       "original": {
@@ -36,6 +36,26 @@
         "type": "github"
       }
     },
+    "nixarr": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2",
+        "vpnconfinement": "vpnconfinement",
+        "website-builder": "website-builder"
+      },
+      "locked": {
+        "lastModified": 1759235666,
+        "narHash": "sha256-GICKb4KDsnokUn2jYEUa4/pDLSmurCTS7/6duz5aMe0=",
+        "owner": "mpardalos",
+        "repo": "nixarr",
+        "rev": "6ce0b231d11681be0c44c0c58535e5ec29fa32c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mpardalos",
+        "repo": "nixarr",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1743014863,
@@ -54,11 +74,27 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1751984180,
-        "narHash": "sha256-LwWRsENAZJKUdD3SpLluwDmdXY9F45ZEgCb0X+xgOL0=",
+        "lastModified": 1748662220,
+        "narHash": "sha256-7gGa49iB9nCnFk4h/g9zwjlQAyjtpgcFkODjcOQS0Es=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "59138c7667b7970d205d6a05a8bfa2d78caa3643",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1759036355,
+        "narHash": "sha256-0m27AKv6ka+q270dw48KflE0LwQYrO7Fm4/2//KCVWg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9807714d6944a957c2e036f84b0ff8caf9930bc0",
+        "rev": "e9f00bd893984bc8ce46c895c3bf7cac95331127",
         "type": "github"
       },
       "original": {
@@ -70,11 +106,11 @@
     },
     "quadlet-nix": {
       "locked": {
-        "lastModified": 1751931728,
-        "narHash": "sha256-i4OALPUnFhe9j9NauZaszZZTgIYSaLHmCO2gp9MZYKQ=",
+        "lastModified": 1758631655,
+        "narHash": "sha256-EGeZ963L7xsNAY7snvP1JHQe7LWLVCM6f49+PzWjhEE=",
         "owner": "SEIAROTg",
         "repo": "quadlet-nix",
-        "rev": "5cb4f185dc3722d589bdf238e6802c4c9f87994e",
+        "rev": "2ebe01b175e2e1e6de3f172d23f0c3b88713eec9",
         "type": "github"
       },
       "original": {
@@ -86,7 +122,8 @@
     "root": {
       "inputs": {
         "deploy-rs": "deploy-rs",
-        "nixpkgs": "nixpkgs_2",
+        "nixarr": "nixarr",
+        "nixpkgs": "nixpkgs_3",
         "quadlet-nix": "quadlet-nix"
       }
     },
@@ -120,6 +157,42 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "vpnconfinement": {
+      "locked": {
+        "lastModified": 1743810720,
+        "narHash": "sha256-kbv/W4gizUSa6qH2rUQdgPj9AJaeN9k2XSWUYqj7IMU=",
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
+        "rev": "74ae51e6d18b972ecc918ab43e8bde60c21a65d8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
+        "type": "github"
+      }
+    },
+    "website-builder": {
+      "inputs": {
+        "nixpkgs": [
+          "nixarr",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1750317638,
+        "narHash": "sha256-B4RWcXXOLO6gMeYyV+K4olu+kGGsYamKH+JAm0cIXqI=",
+        "owner": "rasmus-kirk",
+        "repo": "website-builder",
+        "rev": "b54192000a00e865947f45bacf3184d56363ee38",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rasmus-kirk",
+        "repo": "website-builder",
         "type": "github"
       }
     }
