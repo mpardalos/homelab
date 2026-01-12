@@ -11,5 +11,6 @@
     ./samba.nix
     ./freshrss.nix
     ./miniflux.nix
+    ./monitor.nix
   ];
 }

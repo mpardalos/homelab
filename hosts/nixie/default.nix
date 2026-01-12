@@ -44,8 +44,7 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    curl
-    (writeShellScriptBin "telegram-notify" (builtins.readFile ../../scripts/telegram-notify))
+    (pkgs.callPackage ../../packages/scripts {})
   ];
 
   services.openssh.enable = true;
@@ -106,6 +105,7 @@
     radarr.enable = true;
     jellyfin.enable = true;
     olivetin.enable = true;
+    monitor.enable = true;
     samba = {
       enable = true;
       shares.public.path = config.my-services.datadir;

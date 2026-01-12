@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Telegram Bot Message Sender
 # This script sends a message to a Telegram chat using the Bot API
 

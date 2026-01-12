@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Hard Drive Mount Monitor
+# This script monitors /data mount point and sends Telegram notifications when disconnected
+
+MOUNT_POINT="/data"
+STATE_FILE="/tmp/data_mount_state"
+CHECK_INTERVAL=30  # Check every 30 seconds
+
+# Function to check if mount point is mounted and accessible
+is_mounted() {
+    # First check if it's a mountpoint
+    if ! mountpoint -q "$MOUNT_POINT"; then
+        return 1
+    fi
+
+    # Try to access the filesystem with a timeout
+    # This catches hung/unresponsive mounts
+    if ! timeout 5 ls -A "$MOUNT_POINT" >/dev/null 2>&1; then
+        return 1
+    fi
+
+    # Check if the directory is not empty
+    if [ -z "$(timeout 5 ls -A "$MOUNT_POINT" 2>/dev/null)" ]; then
+        return 1
+    fi
+
+    return 0
+}
+
+# Function to get previous state
+get_previous_state() {
+    if [ -f "$STATE_FILE" ]; then
+        cat "$STATE_FILE"
+    else
+        echo "unknown"
+    fi
+}
+
+# Function to save current state
+save_state() {
+    echo "$1" > "$STATE_FILE"
+}
+
+# Main monitoring loop
+echo "Starting /data mount monitor..."
+echo "Checking every ${CHECK_INTERVAL} seconds"
+echo "Checking path ${MOUNT_POINT}"
+echo "State file is ${STATE_FILE}"
+echo "Press Ctrl+C to stop"
+
+while true; do
+    previous_state=$(get_previous_state)
+    
+    if is_mounted; then
+        current_state="mounted"
+        
+        # If it was previously unmounted or unknown, notify that it's back
+        if [ "$previous_state" != "$current_state" ]; then
+            telegram-notify "✅ /data drive reconnected and mounted"
+            echo "[$(date)] Drive reconnected"
+        fi
+    else
+        current_state="unmounted"
+        
+        # If it was previously mounted or unknown, send alert
+        if [ "$previous_state" != "$current_state" ]; then
+            telegram-notify "⚠️ ALERT: /data drive disconnected! Check the cable (blame the cat 🐱)"
+            echo "[$(date)] ALERT: Drive disconnected!"
+        fi
+    fi
+    
+    # Always save 
+    save_state "$current_state"
+    
+    sleep $CHECK_INTERVAL
+done
