@@ -44,6 +44,8 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
+    curl
+    (writeShellScriptBin "telegram-notify" (builtins.readFile ../../scripts/telegram-notify))
   ];
 
   services.openssh.enable = true;

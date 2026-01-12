@@ -1,0 +1,33 @@
+# Telegram Bot Message Sender
+# This script sends a message to a Telegram chat using the Bot API
+
+# Configuration - Use environment variables or defaults
+# FIXME: Use agenix for secrets
+source /etc/telegram-notify.env
+
+# Check if message is provided as argument
+if [ -z "$1" ]; then
+    echo "Usage: $0 <message>"
+    echo "Example: $0 'Hello from my script!'"
+    exit 1
+fi
+
+MESSAGE="$1"
+
+# Telegram API URL
+API_URL="https://api.telegram.org/bot${BOT_TOKEN}/sendMessage"
+
+# Send the message using curl
+response=$(curl -s -X POST "$API_URL" \
+    -d chat_id="$CHAT_ID" \
+    -d text="$MESSAGE" \
+    -d parse_mode="HTML")
+
+# Check if the message was sent successfully
+if echo "$response" | grep -q '"ok":true'; then
+    echo "Message sent successfully!"
+else
+    echo "Failed to send message."
+    echo "Response: $response"
+    exit 1
+fi
