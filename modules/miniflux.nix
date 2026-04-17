@@ -1,73 +1,39 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   options.my-services.miniflux = with lib; {
     enable = mkEnableOption "Miniflux";
+    port = mkOption { type = types.port; };
     adminUsername = mkOption { type = types.str; };
     adminPassword = mkOption { type = types.str; };
   };
-  config =
+  config = 
     let
       cfg = config.my-services.miniflux;
-      port = 8080;
       dbUser = "miniflux";
       dbPassword = "m1n1fl0x3r0x1";
       dbDatabase = "miniflux";
       my-url = config.my-services.reverse-proxy.services.miniflux.url;
+      service-name = "miniflux";
     in
     lib.mkIf cfg.enable {
-      virtualisation = {
-        containers.enable = true;
-        podman.enable = true;
-      };
-
-      virtualisation.quadlet.pods.miniflux.podConfig = {
-        publishPorts = [
-          "127.0.0.1:${toString port}:8080"
-        ];
-      };
-
-      virtualisation.quadlet.containers =
-        let
-          inherit (config.virtualisation.quadlet) networks pods containers;
-        in
-        {
-          # TODO: This needs to wait for postgres to actually be up and healthy
-          miniflux-web.serviceConfig.depends = [ containers.miniflux-postgres.ref ];
-          miniflux-web.containerConfig = {
-            image = "docker.io/miniflux/miniflux:latest";
-            autoUpdate = "registry";
-            environments = config.my-services.container-env // {
-              DATABASE_URL = "postgres://${dbUser}:${dbPassword}@localhost/${dbDatabase}?sslmode=disable";
-              RUN_MIGRATIONS = "1";
-              CREATE_ADMIN = "1";
-              ADMIN_USERNAME = cfg.adminUsername;
-              ADMIN_PASSWORD = cfg.adminPassword;
-            };
-            healthCmd = "/usr/bin/miniflux -healthcheck auto";
-            pod = pods.miniflux.ref;
-          };
-          miniflux-postgres.containerConfig = rec {
-            image = "docker.io/postgres:17-alpine";
-            autoUpdate = "registry";
-            environments = config.my-services.container-env // {
-              POSTGRES_USER = dbUser;
-              POSTGRES_PASSWORD = dbPassword;
-              POSTGRES_DB = dbDatabase;
-            };
-            volumes = [ "miniflux-db:/var/lib/postgresql/data" ];
-            healthCmd = "pg_isready -U ${dbUser} -d ${dbDatabase}";
-            healthStartupCmd = healthCmd;
-            pod = pods.miniflux.ref;
-          };
+      services.miniflux = {
+        enable = true;
+        adminCredentialsFile = pkgs.writeText "miniflux_creds" ''
+            ADMIN_USERNAME=${cfg.adminUsername}
+            ADMIN_PASSWORD=${cfg.adminPassword}
+        '';
+        config = {
+          LISTEN_ADDR = "localhost:${toString cfg.port}";
         };
+      };
 
       my-services.reverse-proxy.services = {
-        miniflux.port = port;
+        ${service-name}.port = cfg.port;
       };
 
-      my-services.olivetin.service-buttons.miniflux = {
-        serviceName = "miniflux-web.service";
-        icon.url = "${my-url}/favicon.ico";
+      my-services.olivetin.service-buttons.${service-name} = {
+        serviceName = "${service-name}.service";
+        icon.url = "${my-url}/web/favicon.png";
       };
     };
 }

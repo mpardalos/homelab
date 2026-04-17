@@ -106,6 +106,12 @@
     jellyfin.enable = true;
     olivetin.enable = true;
     monitor.enable = true;
+    miniflux = {
+      enable = true;
+      port = 8080;
+      adminUsername = "admin";
+      adminPassword = "admin";
+    };
     samba = {
       enable = true;
       shares.public.path = config.my-services.datadir;
