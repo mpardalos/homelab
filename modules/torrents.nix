@@ -76,8 +76,8 @@
                 VPN_SERVICE_PROVIDER = "airvpn";
                 VPN_TYPE = "wireguard";
                 # FIXME: THIS IS A SECRET
-                WIREGUARD_PRIVATE_KEY = ""..."";
-                WIREGUARD_PRESHARED_KEY = ""..."";
+                WIREGUARD_PRIVATE_KEY = "...";
+                WIREGUARD_PRESHARED_KEY = "...";
                 WIREGUARD_ADDRESSES = "10.146.65.192/32,fd7d:76ee:e68f:a993:9c12:41a6:b18e:14c4/128";
                 SERVER_REGIONS = "Europe";
 
