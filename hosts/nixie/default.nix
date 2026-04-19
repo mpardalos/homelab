@@ -109,8 +109,8 @@
     miniflux = {
       enable = true;
       port = 8080;
-      adminUsername = "admin";
-      adminPassword = "admin";
+      adminUsername = "mpardalos";
+      adminPassword = "Poet-Quench0-Footwork";
     };
     samba = {
       enable = true;
