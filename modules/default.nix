@@ -12,5 +12,6 @@
     ./freshrss.nix
     ./miniflux.nix
     ./monitor.nix
+    ./startpage.nix
   ];
 }

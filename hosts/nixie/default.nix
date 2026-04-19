@@ -93,6 +93,11 @@
         prowlarr.port = config.nixarr.prowlarr.port;
       };
     };
+    startpage = {
+      enable = true;
+      url = "home.mpardalos.com";
+      files-dir = "/var/www/html/home_site";
+    };
     container-env = {
       TZ = config.time.timeZone;
     };
