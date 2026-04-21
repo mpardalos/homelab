@@ -91,6 +91,7 @@
       services = {
         torrents.port = config.nixarr.transmission.uiPort;
         prowlarr.port = config.nixarr.prowlarr.port;
+        mealie.port = config.services.mealie.port;
       };
     };
     startpage = {
@@ -122,6 +123,8 @@
       shares.public.path = config.my-services.datadir;
     };
   };
+
+  services.mealie.enable = true;
 
   # Most users should NEVER change this value after the initial install, for any reason,
   # even if you've upgraded your system to a new NixOS release.
