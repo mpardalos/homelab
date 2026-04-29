@@ -46,6 +46,7 @@ in {
         ];
       }
     ];
+    users.users.${php-user}.extraGroups = [ "systemd-journal" ];
 
     services.caddy.virtualHosts."http://${cfg.url}".extraConfig = ''
       root * ${cfg.files-dir}
