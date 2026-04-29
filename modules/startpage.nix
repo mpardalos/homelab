@@ -2,6 +2,8 @@
 
 let
   cfg = config.my-services.startpage;
+  php-user = config.services.caddy.user;
+  php-group = config.services.caddy.group;
 in {
   options.my-services.startpage = with lib; {
     enable = mkEnableOption "Custom startpage";
@@ -16,10 +18,10 @@ in {
     services.caddy.enable = true;
 
     services.phpfpm.pools.home-site = {
-      user = "caddy";
+      user = php-user;
       settings = {
-        "listen.owner" = config.services.caddy.user;
-        "listen.group" = config.services.caddy.group;
+        "listen.owner" = php-user;
+        "listen.group" = php-group;
         "pm" = "dynamic";
         "pm.max_children" = 5;
         "pm.start_servers" = 2;
@@ -35,7 +37,7 @@ in {
 
     security.sudo.extraRules = [
       {
-        users = [ "caddy" ];
+        users = [ php-user ];
         commands = [
           { command = "/run/current-system/sw/bin/systemctl restart jellyfin.service"; options = [ "NOPASSWD" ]; }
           { command = "/run/current-system/sw/bin/systemctl restart transmission.service"; options = [ "NOPASSWD" ]; }
