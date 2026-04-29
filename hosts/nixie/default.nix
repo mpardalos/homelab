@@ -26,7 +26,7 @@
 
   networking.hostName = "nixie";
   networking = {
-    wireless.enable = false;
+    wireless.enable = lib.mkForce false;
     networkmanager.enable = true;
   };
 
@@ -115,7 +115,6 @@
     sonarr.enable = true;
     radarr.enable = true;
     jellyfin.enable = true;
-    olivetin.enable = true;
     monitor.enable = true;
     miniflux = {
       enable = true;
