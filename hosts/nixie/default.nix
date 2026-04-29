@@ -83,6 +83,11 @@
     };
   };
 
+  # Look into automatically managing CNAME records
+  #   curl          forseti.home.mpardalos.com/api/config/dns/cnameRecords
+  #   curl -XPUT    forseti.home.mpardalos.com/api/config/dns/cnameRecords/bloop.home.mpardalos.com,nixie.home.mpardalos.com
+  #   curl -XDELETE forseti.home.mpardalos.com/api/config/dns/cnameRecords/bloop.home.mpardalos.com,nixie.home.mpardalos.com
+
   my-services = {
     datadir = "/data";
     reverse-proxy = {
