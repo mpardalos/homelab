@@ -13,5 +13,6 @@
     ./miniflux.nix
     ./monitor.nix
     ./startpage.nix
+    ./donetick.nix
   ];
 }

@@ -116,6 +116,7 @@
     radarr.enable = true;
     jellyfin.enable = true;
     monitor.enable = true;
+    donetick.enable = true;
     miniflux = {
       enable = true;
       port = 8080;
