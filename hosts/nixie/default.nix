@@ -102,7 +102,7 @@
     startpage = {
       enable = true;
       url = "home.mpardalos.com";
-      files-dir = "/var/www/html/home_site";
+      files-dir = ../../startpage;
     };
     container-env = {
       TZ = config.time.timeZone;
