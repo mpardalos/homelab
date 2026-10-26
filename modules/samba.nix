@@ -34,12 +34,19 @@
         settings = lib.mapAttrs (
           shareName: { path }: {
             "path" = path;
-            "read only" = "yes";
+            "read only" = "no";
             "browseable" = "yes";
             "guest ok" = "yes";
+            "create mask" = "0644";
+            "directory mask" = "0755";
+            "force user" = "guest";
             "comment" = "Public samba share.";
           }
         ) cfg.shares;
+      };
+
+      users.users.guest = {
+        isNormalUser = true;
       };
     };
 }
