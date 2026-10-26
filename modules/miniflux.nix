@@ -9,14 +9,19 @@ let
   adminPassword = "Poet-Quench0-Footwork";
 in
 {
-  services.miniflux = {
-    enable = true;
-    adminCredentialsFile = pkgs.writeText "miniflux_creds" ''
+  containers.miniflux = {
+    autoStart = true;
+    config = { config, pkgs, lib, ... }: {
+      services.miniflux = {
+        enable = true;
+        adminCredentialsFile = pkgs.writeText "miniflux_creds" ''
             ADMIN_USERNAME=${adminUsername}
             ADMIN_PASSWORD=${adminPassword}
         '';
-    config = {
-      LISTEN_ADDR = "localhost:${toString port}";
+        config = {
+          LISTEN_ADDR = "localhost:${toString port}";
+        };
+      };
     };
   };
 
@@ -25,7 +30,7 @@ in
     url = "miniflux.home.mpardalos.com";
     inherit port;
     order = 70;
-    serviceName = "miniflux.service";
+    serviceName = "container@miniflux.service";
     icon.url = "${url}/favicon.ico";
   };
 }
