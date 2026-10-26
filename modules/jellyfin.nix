@@ -16,7 +16,8 @@
 
   systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD"; # or i965 for older GPUs
   environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
-  users.users.jellyfin.extraGroups = [ "render" "video" ];
+  users.users.jellyfin.extraGroups = [ "render" "video" "media" ];
+  systemd.services.jellyfin.serviceConfig.UMask = lib.mkForce "0002";
 
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];

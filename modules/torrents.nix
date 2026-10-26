@@ -17,6 +17,8 @@
         incomplete-dir = "/data/downloads/.incomplete/";
         # Needed to access transmission from a DNS name
         rpc-host-whitelist-enabled = false;
+        # I don't use this
+        watch-dir-enabled = false;
       };
     };
     prowlarr.enable = true;
@@ -39,5 +41,4 @@
       icon.url = "${url}/transmission/web/images/favicon.svg";
     };
   };
-
 }
