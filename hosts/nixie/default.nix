@@ -83,6 +83,12 @@
     };
   };
 
+  services.seerr = {
+    enable = true;
+    stateRevision = 1; # We never had the old version installed
+  };
+  my-services.reverse-proxy.services.seerr.port = 5055;
+
   # Look into automatically managing CNAME records
   #   curl          forseti.home.mpardalos.com/api/config/dns/cnameRecords
   #   curl -XPUT    forseti.home.mpardalos.com/api/config/dns/cnameRecords/bloop.home.mpardalos.com,nixie.home.mpardalos.com
