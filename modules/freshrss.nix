@@ -5,9 +5,8 @@
 }:
 let
   image = "lscr.io/linuxserver/freshrss:latest";
-  port = 80;
+  port = 5723;
   service-name = "freshrss";
-  my-url = config.my-services.reverse-proxy.services.${service-name}.url;
 in
 {
   virtualisation.containers.enable = true;
@@ -17,7 +16,7 @@ in
     inherit image;
     autoUpdate = "registry";
     publishPorts = [
-      "127.0.0.1:${toString port}:${toString port}"
+      "127.0.0.1:${toString port}:80"
     ];
     volumes = [
       "${service-name}-config:/config"
@@ -25,10 +24,10 @@ in
     environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
   };
 
-  my-services.reverse-proxy.services.${service-name}.port = port;
-
-  my-services.service-buttons.${service-name} = {
+  my.services.freshrss = rec {
+    inherit port;
+    url = "freshrss.home.mpardalos.com";
     serviceName = "${service-name}.service";
-    icon.url = "${my-url}/favicon.ico";
+    icon.url = "${url}/favicon.ico";
   };
 }

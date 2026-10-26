@@ -11,7 +11,7 @@
     nmbd.enable = true;
     settings = {
       public = {
-        "path" = config.my-services.datadir;
+        "path" = config.my.datadir;
         "read only" = "no";
         "browseable" = "yes";
         "guest ok" = "yes";

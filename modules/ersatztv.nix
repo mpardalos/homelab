@@ -7,7 +7,6 @@ let
   image = "docker.io/jasongdove/ersatztv";
   port = 8409;
   service-name = "ersatztv";
-  my-url = config.my-services.reverse-proxy.services.${service-name}.url;
 in
 {
   virtualisation.containers.enable = true;
@@ -26,10 +25,10 @@ in
     environments = config.my-services.container-env // config.my-services.linuxserver-container-env;
   };
 
-  my-services.reverse-proxy.services.${service-name}.port = port;
-
-  my-services.service-buttons.${service-name} = {
+  my.services.ersatztv = rec {
+    inherit port;
+    url = "ersatztv.home.mpardalos.com";
     serviceName = "${service-name}.service";
-    icon.url = "${my-url}/favicon.ico";
-  };
+    icon.url = "${url}/favicon.ico";
+  }
 }

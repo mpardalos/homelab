@@ -3,7 +3,6 @@ let
   dbUser = "miniflux";
   dbPassword = "m1n1fl0x3r0x1";
   dbDatabase = "miniflux";
-  my-url = config.my-services.reverse-proxy.services.miniflux.url;
   service-name = "miniflux";
   port = 8080;
   adminUsername = "mpardalos";
@@ -21,10 +20,12 @@ in
     };
   };
 
-  my-services.reverse-proxy.services.${service-name}.port = port;
-
-  my-services.service-buttons.${service-name} = {
-    serviceName = "${service-name}.service";
-    icon.url = "${my-url}/web/favicon.png";
+  my.services.miniflux = rec {
+    name = "Miniflux";
+    url = "miniflux.home.mpardalos.com";
+    inherit port;
+    order = 70;
+    serviceName = "miniflux.service";
+    icon.url = "${url}/favicon.ico";
   };
 }

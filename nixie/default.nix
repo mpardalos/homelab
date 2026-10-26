@@ -66,9 +66,9 @@
   #   curl -XPUT    forseti.home.mpardalos.com/api/config/dns/cnameRecords/bloop.home.mpardalos.com,nixie.home.mpardalos.com
   #   curl -XDELETE forseti.home.mpardalos.com/api/config/dns/cnameRecords/bloop.home.mpardalos.com,nixie.home.mpardalos.com
 
-  my-services = {
+  my = {
     datadir = "/data";
-    reverse-proxy.domain = "home.mpardalos.com";
+    domain = "home.mpardalos.com";
     container-env = {
       TZ = config.time.timeZone;
     };

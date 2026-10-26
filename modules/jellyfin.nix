@@ -4,11 +4,6 @@
   lib,
   ...
 }:
-let
-  my-url = config.my-services.reverse-proxy.services.${service-name}.url;
-  port = 8096;
-  service-name = "jellyfin";
-in
 {
   services.jellyfin = {
     enable = true;
@@ -26,10 +21,12 @@ in
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
 
-  my-services.reverse-proxy.services.${service-name}.port = port;
-
-  my-services.service-buttons.${service-name} = {
-    serviceName = "${service-name}.service";
-    icon.url = "${my-url}/web/favicon.png";
+  my.services.jellyfin = rec {
+    name = "Jellyfin";
+    port = 8096;
+    order = 10;
+    serviceName = "jellyfin.service";
+    url = "jellyfin.home.mpardalos.com";
+    icon.url = "${url}/web/favicon.bc8d51405ec040305a87.ico";
   };
 }

@@ -22,8 +22,22 @@
     prowlarr.enable = true;
   };
 
-  my-services.reverse-proxy.services = {
-    torrents.port = config.nixarr.transmission.uiPort;
-    prowlarr.port = config.nixarr.prowlarr.port;
+  my.services = {
+    prowlarr = rec {
+      name = "Prowlarr";
+      url = "prowlarr.home.mpardalos.com";
+      port = config.nixarr.prowlarr.port;
+      order = 50;
+      icon.url = "${url}/favicon.ico";
+    };
+    torrents = rec {
+      name = "Torrents";
+      url = "torrents.home.mpardalos.com";
+      port = config.nixarr.transmission.uiPort;
+      serviceName = "transmission.service";
+      order = 60;
+      icon.url = "${url}/transmission/web/images/favicon.svg";
+    };
   };
+
 }
