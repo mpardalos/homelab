@@ -1,52 +1,29 @@
 { config, lib, ... }:
 {
-  options.my-services.samba = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    shares = mkOption {
-      type =
-        with types;
-        attrsOf (submodule {
-          options = {
-            path = mkOption {
-              type = str;
-            };
-          };
-        });
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+    nmbd.enable = true;
+    settings = {
+      public = {
+        "path" = config.my-services.datadir;
+        "read only" = "no";
+        "browseable" = "yes";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "guest";
+        "comment" = "Public samba share.";
+      };
     };
   };
-  config =
-    let
-      cfg = config.my-services.samba;
-    in
-    lib.mkIf cfg.enable {
-      services.samba-wsdd = {
-        enable = true;
-        openFirewall = true;
-      };
 
-      services.samba = {
-        enable = true;
-        openFirewall = true;
-        nmbd.enable = true;
-        settings = lib.mapAttrs (
-          shareName: { path }: {
-            "path" = path;
-            "read only" = "no";
-            "browseable" = "yes";
-            "guest ok" = "yes";
-            "create mask" = "0644";
-            "directory mask" = "0755";
-            "force user" = "guest";
-            "comment" = "Public samba share.";
-          }
-        ) cfg.shares;
-      };
-
-      users.users.guest = {
-        isNormalUser = true;
-      };
-    };
+  users.users.guest = {
+    isNormalUser = true;
+  };
 }

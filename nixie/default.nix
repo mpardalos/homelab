@@ -7,19 +7,21 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../modules/common.nix
+    ../modules/reverse-proxy.nix
+    ../modules/nix.nix
+    #####
+    ../modules/startpage.nix
+    ../modules/sonarr.nix
+    ../modules/radarr.nix
+    ../modules/jellyfin.nix
+    ../modules/monitor.nix
+    ../modules/donetick.nix
+    ../modules/miniflux.nix
+    ../modules/samba.nix
+    ../modules/seer.nix
+    ../modules/torrents.nix
   ];
-
-  nix = {
-    gc.automatic = true;
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    settings.trusted-users = [
-      "root"
-      "@wheel"
-    ];
-  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -44,7 +46,7 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    (pkgs.callPackage ../../packages/scripts {})
+    (pkgs.callPackage ../packages/scripts {})
   ];
 
   services.openssh.enable = true;
@@ -59,36 +61,6 @@
 
   virtualisation.quadlet.autoEscape = true;
 
-  nixarr = {
-    enable = true;
-    mediaDir = "/data/media";
-    stateDir = "/data/nixarr";
-    vpn = {
-      enable = true;
-      wgConf = "/data/wg.conf";
-    };
-    transmission = {
-      enable = true;
-      vpn.enable = true;
-      peerPort = 37494;
-      extraSettings = {
-        download-dir = "/data/downloads/";
-        incomplete-dir = "/data/downloads/.incomplete/";
-        # Needed to access transmission from a DNS name
-        rpc-host-whitelist-enabled = false;
-      };
-    };
-    prowlarr = {
-      enable = true;
-    };
-  };
-
-  services.seerr = {
-    enable = true;
-    stateRevision = 1; # We never had the old version installed
-  };
-  my-services.reverse-proxy.services.seerr.port = 5055;
-
   # Look into automatically managing CNAME records
   #   curl          forseti.home.mpardalos.com/api/config/dns/cnameRecords
   #   curl -XPUT    forseti.home.mpardalos.com/api/config/dns/cnameRecords/bloop.home.mpardalos.com,nixie.home.mpardalos.com
@@ -96,19 +68,7 @@
 
   my-services = {
     datadir = "/data";
-    reverse-proxy = {
-      enable = true;
-      domain = "home.mpardalos.com";
-      services = {
-        torrents.port = config.nixarr.transmission.uiPort;
-        prowlarr.port = config.nixarr.prowlarr.port;
-      };
-    };
-    startpage = {
-      enable = true;
-      url = "home.mpardalos.com";
-      files-dir = ../../startpage;
-    };
+    reverse-proxy.domain = "home.mpardalos.com";
     container-env = {
       TZ = config.time.timeZone;
     };
@@ -117,26 +77,6 @@
       PGID = "2000";
       UMASK = "002";
     };
-    sonarr.enable = true;
-    radarr.enable = true;
-    jellyfin.enable = true;
-    monitor.enable = true;
-    donetick.enable = true;
-    miniflux = {
-      enable = true;
-      port = 8080;
-      adminUsername = "mpardalos";
-      adminPassword = "Poet-Quench0-Footwork";
-    };
-    samba = {
-      enable = true;
-      shares.public.path = config.my-services.datadir;
-    };
-  };
-
-  programs.nh = {
-    enable = true;
-    flake = "/home/mpardalos/homelab";
   };
 
   # Most users should NEVER change this value after the initial install, for any reason,

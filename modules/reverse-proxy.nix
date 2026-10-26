@@ -1,10 +1,6 @@
 { config, lib, ... }:
 {
   options.my-services.reverse-proxy = with lib; {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
     domain = mkOption {
       type = types.str;
     };
@@ -35,7 +31,7 @@
     let
       cfg = config.my-services.reverse-proxy;
     in
-    lib.mkIf config.my-services.reverse-proxy.enable {
+    {
       networking.firewall.allowedTCPPorts = [
         80
         443

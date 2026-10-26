@@ -20,8 +20,7 @@
         modules = [
           quadlet-nix.nixosModules.quadlet
           nixarr.nixosModules.default
-          ./modules
-          ./hosts/nixie
+          ./nixie
         ];
       };
 
