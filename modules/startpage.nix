@@ -39,7 +39,7 @@ in
   ];
   users.users.${php-user}.extraGroups = [ "systemd-journal" ];
 
-  services.caddy.virtualHosts."http://${url}".extraConfig = ''
+  services.caddy.virtualHosts.${url}.extraConfig = ''
       root * ${files-dir}
       file_server
       php_fastcgi unix/${config.services.phpfpm.pools.home-site.socket}
