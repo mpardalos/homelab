@@ -3,13 +3,25 @@ let
   php-user = config.services.caddy.user;
   php-group = config.services.caddy.group;
   url = "home.mpardalos.com";
-  files-dir = ../startpage;
+  document-root = "/srv/homelab-startpage";
+  live-files = "/home/mpardalos/homelab/startpage";
+  systemctl = "${pkgs.systemd}/bin/systemctl";
 in
 {
   services.caddy.enable = true;
 
+  # Serve the live checkout without exposing /home or changing its permissions.
+  # Both Caddy's file checks and PHP-FPM must see the same document root.
+  systemd.tmpfiles.rules = [ "d ${document-root} 0755 root root -" ];
+  systemd.services.caddy.serviceConfig.BindReadOnlyPaths = [ "${live-files}:${document-root}" ];
+  systemd.services.phpfpm-home-site.serviceConfig.BindReadOnlyPaths = [ "${live-files}:${document-root}" ];
+
   services.phpfpm.pools.home-site = {
     user = php-user;
+    phpEnv = {
+      HOMELAB_CONFIG = "/etc/service-inventory.json";
+      PATH = "/run/wrappers/bin:/run/current-system/sw/bin";
+    };
     settings = {
       "listen.owner" = php-user;
       "listen.group" = php-group;
@@ -30,17 +42,17 @@ in
     {
       users = [ php-user ];
       commands = [
-        { command = "/run/current-system/sw/bin/systemctl restart jellyfin.service"; options = [ "NOPASSWD" ]; }
-        { command = "/run/current-system/sw/bin/systemctl restart transmission.service"; options = [ "NOPASSWD" ]; }
-        { command = "/run/current-system/sw/bin/systemctl restart sonarr.service"; options = [ "NOPASSWD" ]; }
-        { command = "/run/current-system/sw/bin/systemctl restart radarr.service"; options = [ "NOPASSWD" ]; }
-      ];
+        { command = "${systemctl} --no-block reboot"; options = [ "NOPASSWD" ]; }
+      ] ++ map (unit: {
+        command = "${systemctl} restart ${unit}";
+        options = [ "NOPASSWD" ];
+      }) (lib.unique (map (svc: svc.serviceName) (builtins.attrValues config.my.services)));
     }
   ];
   users.users.${php-user}.extraGroups = [ "systemd-journal" ];
 
   services.caddy.virtualHosts.${url}.extraConfig = ''
-      root * ${files-dir}
+      root * ${document-root}
       file_server
       php_fastcgi unix/${config.services.phpfpm.pools.home-site.socket}
     '';
