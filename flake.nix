@@ -3,7 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     quadlet-nix.url = "github:SEIAROTg/quadlet-nix";
     deploy-rs.url = "github:serokell/deploy-rs";
-    nixarr.url = "github:mpardalos/nixarr";
+    nixarr.url = "github:nix-media-server/nixarr";
   };
   outputs =
     {
