@@ -1,6 +1,19 @@
 <?php
 declare(strict_types=1);
 
+function dataDiskUsage(): ?array {
+    // Each SSE connection reuses its sample for 30 seconds.
+    static $checkedAt = 0;
+    static $usage = null;
+    if (microtime(true) - $checkedAt < 30) { return $usage; }
+    $checkedAt = microtime(true);
+    $total = @disk_total_space('/data');
+    $free = @disk_free_space('/data');
+    $usage = $total !== false && $total > 0 && $free !== false
+        ? ['total' => $total, 'used' => max(0, $total - $free)] : null;
+    return $usage;
+}
+
 function serviceStates(): array {
     global $services;
     $sampledAt = microtime(true);
@@ -19,7 +32,7 @@ function serviceStates(): array {
         $state = $states[$service['serviceName']] ?? [];
         $result[$key] = ['running' => ($state['ActiveState'] ?? '') === 'active', 'state' => $state['ActiveState'] ?? 'unknown', 'detail' => ($state['LoadState'] ?? '') === 'not-found' ? 'Unit not found' : ($state['SubState'] ?? 'Unknown')];
     }
-    return ['services' => $result, 'bootId' => trim(file_get_contents('/proc/sys/kernel/random/boot_id')), 'sampledAt' => $sampledAt, 'updated' => gmdate('c')];
+    return ['services' => $result, 'disk' => dataDiskUsage(), 'bootId' => trim(file_get_contents('/proc/sys/kernel/random/boot_id')), 'sampledAt' => $sampledAt, 'updated' => gmdate('c')];
 }
 
 function sendEvent(string $event, array $data, ?string $cursor = null): void {

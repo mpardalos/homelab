@@ -30,7 +30,27 @@ function paintStatus(card, state, text) {
   card.querySelector('.status-text').textContent = text || (state.running ? 'Running' : state.state);
 }
 
+function updateDisk(disk) {
+  const meter = document.querySelector('#data-usage');
+  const text = document.querySelector('#data-usage-text');
+  if (!disk || !Number.isFinite(disk.total) || disk.total <= 0 || !Number.isFinite(disk.used) || disk.used < 0) {
+    meter.hidden = true;
+    text.textContent = 'Unavailable';
+    return;
+  }
+  const formatBytes = bytes => {
+    const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+    const unit = Math.min(Math.floor(Math.log2(Math.max(1, bytes)) / 10), units.length - 1);
+    return `${(bytes / 1024 ** unit).toFixed(unit ? 1 : 0)} ${units[unit]}`;
+  };
+  const percent = Math.min(100, disk.used / disk.total * 100);
+  meter.value = percent;
+  meter.hidden = false;
+  text.textContent = `${formatBytes(disk.used)} / ${formatBytes(disk.total)} · ${Math.round(percent)}% used`;
+}
+
 function updateStatus(data) {
+  updateDisk(data.disk);
   bootId = data.bootId;
   if (!rebooting) document.querySelector('#server-reboot').disabled = !bootId;
   cards.forEach(card => {
@@ -55,6 +75,7 @@ function updateStatus(data) {
 }
 
 function unavailable() {
+  updateDisk(null);
   cards.forEach(card => paintStatus(card, null, 'Reconnecting'));
 }
 

@@ -18,7 +18,7 @@ function page(confirmResult = true) {
   const parts = Object.fromEntries(selectors.map(name => [name, new Element()]));
   parts['.service-name'].textContent = 'Jellyfin';
   const card = { dataset: { service: 'jellyfin' }, querySelector: name => parts[name] };
-  const ids = Object.fromEntries(['#logs-modal', '#log-output', '#logs-state', '#logs-title', '#logs-follow', '#refresh-logs', '#close-logs', '#server-journal', '#server-reboot', '#server-message'].map(name => [name, new Element()]));
+  const ids = Object.fromEntries(['#logs-modal', '#log-output', '#logs-state', '#logs-title', '#logs-follow', '#refresh-logs', '#close-logs', '#server-journal', '#server-reboot', '#server-message', '#data-usage', '#data-usage-text'].map(name => [name, new Element()]));
   const sources = [];
   class Source {
     constructor(url) { this.url = url; this.listeners = {}; sources.push(this); }
@@ -143,4 +143,24 @@ test('reboot requires confirmation, then checks every five seconds and reloads a
   p.resolve({ ...p.status('active', 3), bootId: 'boot-after' });
   await recovered;
   assert.equal(p.reloads(), 1);
+});
+
+
+test('disk usage displays streamed capacity, handles empty/full disks and clears stale readings', () => {
+  const p = page();
+  const send = disk => p.sources[0].emit('status', { ...p.status('active', 1), disk });
+  send({ total: 1024 ** 4, used: 1024 ** 3 * 256 });
+  assert.equal(p.ids['#data-usage'].value, 25);
+  assert.equal(p.ids['#data-usage'].hidden, false);
+  assert.equal(p.ids['#data-usage-text'].textContent, '256.0 GiB / 1.0 TiB · 25% used');
+  send({ total: 1024, used: 0 });
+  assert.equal(p.ids['#data-usage'].value, 0);
+  send({ total: 1024, used: 1024 });
+  assert.equal(p.ids['#data-usage'].value, 100);
+  send({ total: 0, used: 0 });
+  assert.equal(p.ids['#data-usage'].hidden, true);
+  send({ total: 1024, used: 512 });
+  p.sources[0].emit('error');
+  assert.equal(p.ids['#data-usage'].hidden, true);
+  assert.equal(p.ids['#data-usage-text'].textContent, 'Unavailable');
 });

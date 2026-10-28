@@ -151,6 +151,10 @@ function esc(string $text): string { return htmlspecialchars($text, ENT_QUOTES |
         </article>
       <?php endforeach; ?>
       </section>
+      <section class="disk-usage" aria-label="Data disk usage">
+        <div class="disk-label"><label for="data-usage">/data</label><span id="data-usage-text">Checking…</span></div>
+        <meter id="data-usage" min="0" max="100" low="80" high="95" optimum="0" value="0" hidden aria-describedby="data-usage-text"></meter>
+      </section>
       <section class="server-controls" aria-label="Server controls">
         <span class="server-label">Server</span>
         <div class="button-row">
