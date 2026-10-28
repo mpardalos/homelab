@@ -14,6 +14,6 @@
   my.services.sonarr = {
     port = config.services.sonarr.settings.server.port;
     order = 30;
-    # icon.url = "${url}/favicon.ico";
+    icon.path = "favicon.ico";
   };
 }

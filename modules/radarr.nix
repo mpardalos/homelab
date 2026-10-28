@@ -14,6 +14,6 @@
   my.services.radarr = {
     port = config.services.radarr.settings.server.port;
     order = 40;
-    # icon.url = "${url}/favicon.ico";
+    icon.path = "favicon.ico";
   };
 }

@@ -28,12 +28,12 @@
     prowlarr = rec {
       port = config.nixarr.prowlarr.port;
       order = 50;
-      # icon.url = "${url}/favicon.ico";
+      icon.path = "favicon.ico";
     };
     torrents = {
       port = config.nixarr.transmission.uiPort;
       order = 60;
-      # icon.url = "${url}/transmission/web/images/favicon.svg";
+      icon.path = "transmission/web/images/favicon.svg";
     };
   };
 }

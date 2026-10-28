@@ -26,8 +26,6 @@ in
 
   my.services.freshrss = rec {
     inherit port;
-    url = "freshrss.home.mpardalos.com";
-    serviceName = "${service-name}.service";
-    icon.url = "${url}/favicon.ico";
+    icon.path = "favicon.ico";
   };
 }

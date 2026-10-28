@@ -71,6 +71,7 @@ button { cursor: pointer; }
 .card .icon-button { position: relative; z-index: 2; }
 .service-icon { flex-shrink: 0; width: 32px; height: 32px; display: grid; place-items: center; }
 .service-icon img { width: 32px; height: 32px; object-fit: contain; }
+.default-service-icon { width: 32px; height: 32px; background: var(--icon); mask: url('/gear-solid-full.svg') center / contain no-repeat; }
 .service-name { font-size: 17px; line-height: 1.4; letter-spacing: -.35px; font-weight: 500; }
 svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .service-link:hover .service-name { color: var(--accent); }

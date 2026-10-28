@@ -29,6 +29,6 @@ in
     inherit port;
     order = 70;
     serviceName = "container@miniflux.service";
-    # icon.url = "${url}/favicon.ico";
+    icon.path = "favicon.ico";
   };
 }

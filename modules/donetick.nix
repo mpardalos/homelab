@@ -31,6 +31,6 @@ in
   my.services.donetick = {
     order = 80;
     inherit port;
-    # icon.url = "${url}/logo.svg";
+    icon.path = "logo.svg";
   };
 }

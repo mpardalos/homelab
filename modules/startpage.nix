@@ -10,6 +10,16 @@ in
 {
   services.caddy.enable = true;
 
+  environment.etc."service-inventory.json".source =
+    (pkgs.formats.json { }).generate "service-inventory.json" (
+      lib.mapAttrs (name: service: service // {
+        url = "${name}.${url}";
+        icon = if service.icon != null && service.icon ? path then {
+          url = "https://${name}.${url}/${lib.removePrefix "/" service.icon.path}";
+        } else service.icon;
+      }) config.my.services
+    );
+
   # Serve the live checkout without exposing /home or changing its permissions.
   # Both Caddy's file checks and PHP-FPM must see the same document root.
   systemd.tmpfiles.rules = [ "d ${document-root} 0755 root root -" ];

@@ -7,6 +7,6 @@
   my.services.seerr = rec {
     port = 5055;
     order = 20;
-    # icon.url = "${url}/favicon-32x32.png";
+    icon.path = "favicon-32x32.png";
   };
 }

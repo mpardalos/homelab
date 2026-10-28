@@ -137,7 +137,15 @@ function esc(string $text): string { return htmlspecialchars($text, ENT_QUOTES |
       <?php foreach ($services as $id => $service): ?>
         <article class="card" data-service="<?= esc($id) ?>">
           <a class="service-link" href="<?= esc(webUrl($service['url'])) ?>">
-            <span class="service-icon"><?php if (isset($service['icon']['url'])): ?><img src="<?= esc(webUrl($service['icon']['url'])) ?>" alt="" width="32" height="32"><?php else: ?><?= $service['icon']['html'] ?><?php endif; ?></span>
+            <span class="service-icon">
+              <?php if (!empty($service['icon']['url'])): ?>
+                <img src="<?= esc(webUrl($service['icon']['url'])) ?>" alt="" width="32" height="32">
+              <?php elseif (!empty($service['icon']['html'])): ?>
+                <?= $service['icon']['html'] ?>
+              <?php else: ?>
+                <span class="default-service-icon" aria-hidden="true"></span>
+              <?php endif; ?>
+            </span>
             <span class="service-name"><?= esc($service['name']) ?></span>
           </a>
           <div class="card-footer">

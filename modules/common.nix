@@ -50,6 +50,21 @@
               type = strMatching "[a-zA-Z0-9_@.:-]+[.]service";
               default = "${name}.service";
             };
+            icon = mkOption {
+              description = "Icon representing the service";
+              default = null;
+              type = nullOr (attrTag {
+                url = mkOption {
+                  description = "Full URL of the image";
+                  type = str;
+                };
+                path = mkOption {
+                  description = "Path to the image relative to the domain it's served at";
+                  type = str;
+                  example = "icons/favicon.png";
+                };
+              });
+            };
           };
         }));
       default = { };
@@ -62,7 +77,5 @@
       message = "Startpage service button IDs must contain only letters, numbers, underscores or hyphens, and cannot be 'server'.";
     } ];
 
-    environment.etc."service-inventory.json".source =
-      (pkgs.formats.json { }).generate "service-inventory.json" config.my.services;
   };
 }

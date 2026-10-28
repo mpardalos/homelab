@@ -125,6 +125,27 @@ elif '--output=short-iso' in args:
         self.assertIn('href="https://example.com"', self.page)
         self.assertIn('>Stopped</span>', self.page)
 
+    def test_missing_or_empty_icon_uses_default(self):
+        path = self.work / 'config.json'
+        original = path.read_text()
+        try:
+            for icon in ('missing', None, {}, {'url': ''}, {'html': ''}):
+                with self.subTest(icon=icon):
+                    inventory = json.loads(original)
+                    if icon == 'missing':
+                        del inventory['jellyfin']['icon']
+                    else:
+                        inventory['jellyfin']['icon'] = icon
+                    path.write_text(json.dumps(inventory))
+                    page = self.opener.open(self.base).read().decode()
+                    self.assertIn('class="default-service-icon"', page)
+                    self.assertNotIn('Warning:', page)
+                    self.assertIn('<svg aria-hidden="true"><path d="M0 0"/></svg>', page)
+        finally:
+            path.write_text(original)
+        response = self.opener.open(self.base + '/gear-solid-full.svg')
+        self.assertIn(b'<svg', response.read())
+
     def test_status(self):
         status, body = self.request("action=status")
         self.assertEqual(status, 200)

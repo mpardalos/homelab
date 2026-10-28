@@ -25,6 +25,6 @@
   my.services.jellyfin = {
     port = 8096;
     order = 10;
-    # icon.url = "${url}/web/favicon.bc8d51405ec040305a87.ico";
+    icon.path = "web/favicon.bc8d51405ec040305a87.ico";
   };
 }
