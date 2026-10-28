@@ -123,7 +123,7 @@ function esc(string $text): string { return htmlspecialchars($text, ENT_QUOTES |
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="light dark">
   <meta name="csrf-token" content="<?= esc($csrf) ?>">
   <title>Home / Nixie</title>
   <link rel="stylesheet" href="/style.css?v=<?= filemtime(__DIR__ . '/style.css') ?>">
