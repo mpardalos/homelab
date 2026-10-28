@@ -1,4 +1,9 @@
 { config, pkgs, lib, ... }:
+let
+  localDomain = "home.mpardalos.com";
+  tsDomain = "ts.mpardalos.com";
+  tsAddr = "100.84.230.81"; # This node's tailscale address
+in
 {
   networking.firewall.allowedTCPPorts = [
     80
@@ -14,15 +19,32 @@
       hash = "sha256-hMpvx4RAvfvwvm/M/yAWY1LuEkFCR7rdkhrbFwcaA7E=";
     };
     globalConfig = ''
-          acme_dns netlify {env.NETLIFY_AUTH_TOKEN}
-        '';
-    virtualHosts = lib.mapAttrs' (
+      acme_dns netlify {env.NETLIFY_AUTH_TOKEN}
+      tls_resolvers 1.1.1.1
+    '';
+    virtualHosts = lib.concatMapAttrs (
       name:
-      { url, port, ... }:
+      { port, ... }:
       {
-        name = url;
-        value.extraConfig = "reverse_proxy http://localhost:${toString port}";
+        "${name}.${localDomain}".extraConfig = "reverse_proxy http://localhost:${toString port}";
+        "${name}.${tsDomain}".extraConfig = "reverse_proxy http://localhost:${toString port}";
       }
     ) config.my.services;
   };
+
+  # Point services to this host on the tailnet
+  networking.firewall.allowedUDPPorts = [ 53 ];
+  services.coredns.enable = true;
+  services.coredns.config = lib.join "\n" (
+    [
+      ".:53 {"
+      "  hosts { "]
+    ++ lib.mapAttrsToList (
+      name: _: "    ${tsAddr} ${name}.${tsDomain}"
+    ) config.my.services
+    ++ [
+      "  }"
+      "}"
+    ]
+  );
 }

@@ -25,12 +25,10 @@ in
     };
   };
 
-  my.services.miniflux = rec {
-    name = "Miniflux";
-    url = "miniflux.home.mpardalos.com";
+  my.services.miniflux = {
     inherit port;
     order = 70;
     serviceName = "container@miniflux.service";
-    icon.url = "${url}/favicon.ico";
+    # icon.url = "${url}/favicon.ico";
   };
 }

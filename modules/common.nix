@@ -35,11 +35,7 @@
             name = mkOption {
               description = "Label displayed on the startpage";
               type = str;
-              default = name;
-            };
-            url = mkOption {
-              description = "URL the service is served at";
-              type = str;
+              default = lib.strings.toSentenceCase name;
             };
             port = mkOption {
               type = port;
@@ -53,19 +49,6 @@
               description = "Systemd service name";
               type = strMatching "[a-zA-Z0-9_@.:-]+[.]service";
               default = "${name}.service";
-            };
-            icon = mkOption {
-              description = "Icon representing the service";
-              type = attrTag {
-                url = mkOption {
-                  description = "Image from a URL";
-                  type = str;
-                };
-                html = mkOption {
-                  description = "Custom html for icon";
-                  type = str;
-                };
-              };
             };
           };
         }));

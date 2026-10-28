@@ -21,6 +21,12 @@
     ../modules/samba.nix
     ../modules/seer.nix
     ../modules/torrents.nix
+    {
+      services.recyclarr = {
+        enable = true;
+        group = "media";
+      };
+    }
   ];
 
   boot.loader.systemd-boot.enable = true;

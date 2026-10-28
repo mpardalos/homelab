@@ -22,12 +22,9 @@
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
 
-  my.services.jellyfin = rec {
-    name = "Jellyfin";
+  my.services.jellyfin = {
     port = 8096;
     order = 10;
-    serviceName = "jellyfin.service";
-    url = "jellyfin.home.mpardalos.com";
-    icon.url = "${url}/web/favicon.bc8d51405ec040305a87.ico";
+    # icon.url = "${url}/web/favicon.bc8d51405ec040305a87.ico";
   };
 }

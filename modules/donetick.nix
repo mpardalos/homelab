@@ -28,12 +28,9 @@ in
 	  };
   };
 
-  my.services.donetick = rec {
-    name = "Donetick";
+  my.services.donetick = {
     order = 80;
     inherit port;
-    serviceName = "donetick.service";
-    url = "donetick.home.mpardalos.com";
-    icon.url = "${url}/logo.svg";
+    # icon.url = "${url}/logo.svg";
   };
 }

@@ -11,12 +11,9 @@
   # Don't let others write to our files
   systemd.services.sonarr.serviceConfig.UMask = lib.mkForce "0002";
 
-  my.services.sonarr = rec {
-    name = "Sonarr";
-    url = "sonarr.home.mpardalos.com";
+  my.services.sonarr = {
     port = config.services.sonarr.settings.server.port;
     order = 30;
-    serviceName = "sonarr.service";
-    icon.url = "${url}/favicon.ico";
+    # icon.url = "${url}/favicon.ico";
   };
 }
